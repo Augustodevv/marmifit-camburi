@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, MessageCircle, Clock, Phone } from "lucide-react";
+import { MapPin, MessageCircle, Clock, Phone, Mail } from "lucide-react";
 import { Logo } from "@/components/store/logo";
 import { whatsappLink } from "@/lib/whatsapp";
 import { formatPhone } from "@/lib/format";
@@ -7,10 +7,12 @@ import { formatPhone } from "@/lib/format";
 export function Footer({
   whatsapp,
   phone,
+  email,
   pickupAddress,
 }: {
   whatsapp: string | null;
   phone: string | null;
+  email: string | null;
   pickupAddress: string;
 }) {
   const tel = phone || whatsapp;
@@ -73,6 +75,11 @@ export function Footer({
               className="mt-3 flex items-center gap-2 text-sm text-cream/80 hover:text-white"
             >
               <MessageCircle className="size-4 shrink-0 text-tangerine" aria-hidden /> WhatsApp {formatPhone(whatsapp)}
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`} className="mt-3 flex items-center gap-2 break-all text-sm text-cream/80 hover:text-white">
+              <Mail className="size-4 shrink-0 text-tangerine" aria-hidden /> {email}
             </a>
           )}
         </div>

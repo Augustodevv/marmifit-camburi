@@ -19,7 +19,7 @@ export default async function StoreLayout({ children }: LayoutProps<"/">) {
       <main id="conteudo" className="flex-1">
         {children}
       </main>
-      <Footer whatsapp={settings.whatsappNumber} phone={settings.phone} pickupAddress={settings.pickupAddress} />
+      <Footer whatsapp={settings.whatsappNumber} phone={settings.phone} email={settings.email} pickupAddress={settings.pickupAddress} />
       {settings.whatsappNumber && <WhatsAppFab phone={settings.whatsappNumber} />}
     </>
   );
