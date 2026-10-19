@@ -1,0 +1,392 @@
+// Marmifit Camburi — modelo de dados
+// Valores monetários sempre em centavos (Int). Gramas em Int.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CUSTOMER
+  STAFF
+  ADMIN
+}
+
+enum IngredientGroup {
+  PROTEIN
+  BASE
+  SIDE
+  ADDON
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  READY_FOR_PICKUP
+  DELIVERED
+  CANCELED
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+  ON_DELIVERY
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REFUNDED
+  NOT_REQUIRED
+}
+
+enum Fulfillment {
+  DELIVERY
+  PICKUP
+}
+
+enum CouponType {
+  PERCENT
+  FIXED
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  phone         String?
+  passwordHash  String
+  role          Role           @default(CUSTOMER)
+  loyaltyPoints Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  addresses     Address[]
+  orders        Order[]
+  favorites     Favorite[]
+  reviews       Review[]
+  notifications Notification[]
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String   @default("Casa")
+  street     String
+  number     String
+  complement String?
+  district   String
+  city       String   @default("Vitória")
+  state      String   @default("ES")
+  zip        String
+  reference  String?
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  image       String?
+  sortOrder   Int       @default(0)
+  active      Boolean   @default(true)
+  isCombo     Boolean   @default(false)
+  products    Product[]
+}
+
+/// Tamanhos configuráveis (Pequena 350 g, Média 500 g...). Define preço base do
+/// configurador, multiplicador para marmitas prontas e limites de escolha.
+model Size {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  grams            Int
+  /// preço base da marmita personalizada neste tamanho (centavos)
+  customBasePrice  Int
+  /// multiplicador em pontos-base aplicado ao preço base de produtos prontos (10000 = 1x)
+  priceMultiplier  Int      @default(10000)
+  maxProteins      Int      @default(1)
+  maxBases         Int      @default(1)
+  maxSides         Int      @default(2)
+  maxAddons        Int      @default(4)
+  /// gramas aproximadas por grupo, usadas para cálculo nutricional
+  proteinGrams     Int      @default(120)
+  baseGrams        Int      @default(150)
+  sidesGrams       Int      @default(100)
+  sortOrder        Int      @default(0)
+  active           Boolean  @default(true)
+  rulesAsConflicts CombinationRule[]
+}
+
+/// Estilos do configurador: tradicional, low carb, vegetariano, personalizado...
+model Style {
+  id                 String  @id @default(cuid())
+  slug               String  @unique
+  name               String
+  description        String?
+  requireVegetarian  Boolean @default(false)
+  requireVegan       Boolean @default(false)
+  requireLowCarb     Boolean @default(false)
+  sortOrder          Int     @default(0)
+  active             Boolean @default(true)
+}
+
+model Ingredient {
+  id            String          @id @default(cuid())
+  slug          String          @unique
+  name          String
+  description   String?
+  group         IngredientGroup
+  /// acréscimo no preço ao escolher este item (centavos)
+  price         Int             @default(0)
+  /// preço da porção extra (apenas proteínas). null = não permite porção extra
+  extraPrice    Int?
+  extraGrams    Int?
+  available     Boolean         @default(true)
+  isVegetarian  Boolean         @default(false)
+  isVegan       Boolean         @default(false)
+  isLowCarb     Boolean         @default(false)
+  allergens     String[]        @default([])
+  image         String?
+  sortOrder     Int             @default(0)
+  /// Informação nutricional por 100 g — preencher apenas com dados verificados (tabela TACO, laudo, fornecedor)
+  kcalPer100g   Float?
+  proteinPer100g Float?
+  carbsPer100g  Float?
+  fatPer100g    Float?
+  fiberPer100g  Float?
+  sodiumMgPer100g Float?
+  nutritionSource String?
+  rulesA        CombinationRule[] @relation("RuleIngredient")
+  rulesB        CombinationRule[] @relation("RuleConflict")
+}
+
+/// Regra de combinação: o ingrediente não pode ser combinado com outro
+/// ingrediente (conflictIngredient) ou com um tamanho (size).
+model CombinationRule {
+  id                   String      @id @default(cuid())
+  description          String
+  ingredientId         String
+  ingredient           Ingredient  @relation("RuleIngredient", fields: [ingredientId], references: [id], onDelete: Cascade)
+  conflictIngredientId String?
+  conflictIngredient   Ingredient? @relation("RuleConflict", fields: [conflictIngredientId], references: [id], onDelete: Cascade)
+  sizeId               String?
+  size                 Size?       @relation(fields: [sizeId], references: [id], onDelete: Cascade)
+  active               Boolean     @default(true)
+}
+
+model Product {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  name           String
+  description    String
+  image          String?
+  categoryId     String
+  category       Category    @relation(fields: [categoryId], references: [id])
+  /// preço no tamanho de referência (multiplicador 1x), em centavos
+  basePrice      Int
+  /// preço "de" para promoções
+  compareAtPrice Int?
+  /// combos e kits têm preço fixo e não variam por tamanho
+  hasSizes       Boolean     @default(true)
+  active         Boolean     @default(true)
+  available      Boolean     @default(true)
+  featured       Boolean     @default(false)
+  /// dias da semana em que é "marmita do dia" (0 = domingo ... 6 = sábado)
+  dailyDays      Int[]       @default([])
+  tags           String[]    @default([])
+  ingredientsText String?
+  allergens      String[]    @default([])
+  /// Nutrição por porção do tamanho de referência — apenas dados verificados
+  kcal           Float?
+  proteinG       Float?
+  carbsG         Float?
+  fatG           Float?
+  fiberG         Float?
+  sodiumMg       Float?
+  nutritionSource String?
+  sortOrder      Int         @default(0)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  favorites      Favorite[]
+  reviews        Review[]
+  orderItems     OrderItem[]
+
+  @@index([categoryId])
+}
+
+model Coupon {
+  id          String     @id @default(cuid())
+  code        String     @unique
+  description String?
+  type        CouponType
+  /// PERCENT: 0-100 ; FIXED: centavos
+  value       Int
+  minOrder    Int        @default(0)
+  maxUses     Int?
+  usedCount   Int        @default(0)
+  expiresAt   DateTime?
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+}
+
+model DeliveryZone {
+  id        String  @id @default(cuid())
+  district  String  @unique
+  fee       Int
+  etaMinutes Int    @default(45)
+  active    Boolean @default(true)
+}
+
+/// Configuração única da loja (id = "store")
+model StoreSettings {
+  id                 String  @id @default("store")
+  storeName          String  @default("Marmifit Camburi")
+  whatsappNumber     String?
+  phone              String?
+  email              String?
+  pickupAddress      String  @default("Camburi, Vitória - ES")
+  heroImage          String?
+  instagram          String?
+  acceptingOrders    Boolean @default(true)
+  minOrder           Int     @default(0)
+  freeDeliveryMin    Int?
+  prepTimeMinutes    Int     @default(40)
+  /// JSON: [{ day: 0-6, open: "10:30", close: "15:00", enabled: true }]
+  openingHours       Json
+  /// pontos ganhos por real gasto
+  pointsPerReal      Int     @default(1)
+  /// quantos pontos equivalem a um resgate e quanto vale (centavos)
+  pointsPerRedemption Int    @default(100)
+  redemptionValue    Int     @default(500)
+  maxScheduleDays    Int     @default(7)
+}
+
+model Order {
+  id             String        @id @default(cuid())
+  seq            Int           @unique @default(autoincrement())
+  number         String        @unique
+  trackingToken  String        @unique
+  userId         String?
+  user           User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  customerName   String
+  customerPhone  String
+  customerEmail  String?
+  status         OrderStatus   @default(PENDING_PAYMENT)
+  fulfillment    Fulfillment
+  /// snapshot do endereço no momento do pedido
+  address        Json?
+  scheduledFor   DateTime?
+  subtotal       Int
+  deliveryFee    Int
+  discount       Int           @default(0)
+  pointsDiscount Int           @default(0)
+  pointsUsed     Int           @default(0)
+  pointsEarned   Int           @default(0)
+  total          Int
+  couponCode     String?
+  paymentMethod  PaymentMethod
+  paymentStatus  PaymentStatus @default(PENDING)
+  mpPreferenceId String?
+  mpPaymentId    String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  items          OrderItem[]
+  events         OrderEvent[]
+  reviews        Review[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String?
+  product       Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name          String
+  sizeName      String?
+  /// configuração completa (para marmita personalizada / pedir novamente)
+  configuration Json?
+  description   String?
+  unitPrice     Int
+  quantity      Int
+  total         Int
+  notes         String?
+}
+
+model OrderEvent {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note      String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+model Favorite {
+  userId    String
+  productId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, productId])
+}
+
+/// Avaliação verificada: só pode ser criada por quem recebeu um pedido com o produto
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  approved  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId, orderId])
+  @@index([productId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  href      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

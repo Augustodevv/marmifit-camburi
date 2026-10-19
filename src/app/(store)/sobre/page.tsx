@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { HeartHandshake, Leaf, Sprout, Timer } from "lucide-react";
+import { PageHeader } from "@/components/store/section";
+import { FoodImage } from "@/components/store/food-image";
+import { buttonVariants } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Sobre nós",
+  description: "A Marmifit Camburi prepara marmitas frescas todos os dias em Vitória - ES.",
+  alternates: { canonical: "/sobre" },
+};
+
+const VALUES = [
+  { icon: Sprout, title: "Ingredientes frescos", text: "Compramos de fornecedores locais e cozinhamos no mesmo dia da entrega." },
+  { icon: Leaf, title: "Equilíbrio sem neura", text: "Opções tradicionais, fitness, low carb e veganas. Você escolhe o que faz sentido para você." },
+  { icon: Timer, title: "Pontualidade", text: "Agendamento por horário e acompanhamento do pedido em tempo real." },
+  { icon: HeartHandshake, title: "Transparência", text: "Ingredientes e alergênicos sempre visíveis. Informação nutricional só com dados verificados." },
+];
+
+export default function AboutPage() {
+  return (
+    <>
+      <PageHeader eyebrow="Nossa história" title="Comida de casa, com cuidado de cozinha profissional" />
+      <div className="container-page grid items-center gap-12 py-14 lg:grid-cols-2">
+        <FoodImage alt="Cozinha da Marmifit" seed="sobre-cozinha" className="aspect-[4/3] rounded-[2rem] shadow-lift" />
+        <div className="space-y-4 text-lg leading-relaxed text-ink/80">
+          <p>
+            A Marmifit nasceu em Camburi com uma ideia simples: comer bem no dia a dia não deveria ser complicado. Por isso
+            cozinhamos todos os dias, em pequenas quantidades, pratos que lembram comida de casa.
+          </p>
+          <p>
+            Você pode escolher um prato pronto do cardápio ou montar a sua marmita do zero, do tamanho certo para a sua fome e
+            com os ingredientes que combinam com o seu objetivo.
+          </p>
+          <Link href="/cardapio" className={buttonVariants({ size: "xl" })}>Conheça o cardápio</Link>
+        </div>
+      </div>
+      <section className="container-page pb-6">
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {VALUES.map((v) => (
+            <li key={v.title} className="rounded-2xl border border-cream-300 bg-white p-6 shadow-soft">
+              <v.icon className="size-8 text-leaf" aria-hidden />
+              <h2 className="mt-4 text-xl font-semibold text-forest">{v.title}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{v.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
+  );
+}
