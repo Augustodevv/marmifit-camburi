@@ -136,13 +136,12 @@ export function Hero({
           }}
         >
           <motion.div style={reduce ? undefined : { rotateX: rx, rotateY: ry }} className="relative [transform-style:preserve-3d]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.75rem] border-4 border-cream/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] sm:aspect-square">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[2.25rem] border-4 border-cream/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
               {heroImage ? (
-                <Image src={heroImage} alt="Marmitas coloridas da Marmifit Camburi" fill priority sizes="(min-width: 1024px) 580px, 100vw" className="object-cover" />
+                <Image src={heroImage} alt="Marmitas coloridas da Marmifit Camburi" fill priority quality={90} sizes="(min-width: 1024px) 580px, 100vw" className="object-cover" />
               ) : (
                 <div className="size-full bg-leaf" />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-forest/50 via-transparent to-transparent" aria-hidden />
             </div>
 
             {sideImage && (
@@ -153,7 +152,7 @@ export function Hero({
                 className="absolute -bottom-8 -left-6 w-40 overflow-hidden rounded-3xl border-4 border-cream shadow-2xl sm:-left-12 sm:w-52 [transform:translateZ(60px)]"
               >
                 <div className="relative aspect-[4/3]">
-                  <Image src={sideImage} alt="" fill sizes="208px" className="object-cover" />
+                  <Image src={sideImage} alt="" fill quality={90} sizes="208px" className="object-cover" />
                 </div>
               </motion.div>
             )}
