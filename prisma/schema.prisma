@@ -256,7 +256,7 @@ model StoreSettings {
   whatsappNumber     String?
   phone              String?
   email              String?
-  pickupAddress      String  @default("Camburi, Vitória - ES")
+  pickupAddress      String  @default("Camburi, São Sebastião - SP")
   heroImage          String?
   instagram          String?
   acceptingOrders    Boolean @default(true)

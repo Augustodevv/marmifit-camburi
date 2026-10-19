@@ -11,12 +11,12 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Marmifit Camburi — Marmitas saudáveis em Vitória",
+    default: "Marmifit Camburi — Marmitas saudáveis no Litoral Norte de SP",
     template: "%s · Marmifit Camburi",
   },
   description:
-    "Peça marmitas tradicionais, fitness, low carb, vegetarianas e veganas em Jardim Camburi, Vitória - ES. Monte a sua, agende a entrega e acompanhe o pedido.",
-  keywords: ["marmita", "marmita fitness", "Jardim Camburi", "Vitória", "delivery", "low carb", "marmita vegana"],
+    "Peça marmitas tradicionais, fitness, low carb, vegetarianas e veganas em Camburi, São Sebastião - Litoral Norte de SP. Monte a sua, agende a entrega e acompanhe o pedido.",
+  keywords: ["marmita", "marmita fitness", "Camburi", "São Sebastião", "Litoral Norte", "delivery", "low carb", "marmita vegana"],
   openGraph: {
     type: "website",
     locale: "pt_BR",

@@ -3,7 +3,6 @@ import { ActionForm, Check, Field } from "@/components/admin/action-form";
 import { requireOwner } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { centsToInput } from "@/lib/admin-form";
-import { WEEKDAYS } from "@/lib/hours";
 import { getSettings } from "@/server/catalog";
 import { saveSettings, saveZone, setUserRole } from "@/server/actions/admin";
 
@@ -39,20 +38,6 @@ export default async function SettingsAdmin() {
               <Field label="Frete grátis acima de (R$)" name="freeDeliveryMin" defaultValue={centsToInput(s.freeDeliveryMin)} hint="Vazio = nunca" />
               <Field label="Tempo de preparo (min)" name="prepTimeMinutes" type="number" defaultValue={s.prepTimeMinutes} />
               <Field label="Agendar até (dias)" name="maxScheduleDays" type="number" defaultValue={s.maxScheduleDays} />
-            </div>
-          </Panel>
-          <Panel title="Horário de funcionamento">
-            <div className="space-y-2">
-              {WEEKDAYS.map((d, i) => {
-                const h = s.hours.find((x) => x.day === i);
-                return (
-                  <div key={d} className="grid grid-cols-[110px_1fr_1fr] items-center gap-3 sm:grid-cols-[140px_160px_160px]">
-                    <Check label={d} name={`enabled-${i}`} defaultChecked={h?.enabled} />
-                    <input type="time" name={`open-${i}`} defaultValue={h?.open ?? "10:30"} aria-label={`Abertura ${d}`} className="h-10 rounded-lg border border-input px-2 text-sm" />
-                    <input type="time" name={`close-${i}`} defaultValue={h?.close ?? "15:00"} aria-label={`Fechamento ${d}`} className="h-10 rounded-lg border border-input px-2 text-sm" />
-                  </div>
-                );
-              })}
             </div>
           </Panel>
         </ActionForm>

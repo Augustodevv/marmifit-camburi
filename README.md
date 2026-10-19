@@ -64,7 +64,7 @@ Acesse `http://localhost:3000`. O painel fica em `/admin` (login da equipe em `/
 | `npm run db:studio` | Prisma Studio |
 
 ### Testes
-`tests/` cobre o motor de preços e validação do configurador (limites, estilos, regras, porção extra, nutrição), cupons, pontos, frete, horários/agendamento no fuso de Vitória, assinatura do webhook do Mercado Pago e helpers de segurança do painel.
+`tests/` cobre o motor de preços e validação do configurador (limites, estilos, regras, porção extra, nutrição), cupons, pontos, frete, horários/agendamento no fuso de São Paulo, assinatura do webhook do Mercado Pago e helpers de segurança do painel.
 
 ## Deploy na Vercel
 1. Crie um banco PostgreSQL (Supabase, Neon ou Prisma Postgres). Com Supabase: `DATABASE_URL` = pooler em modo transação (porta 6543) e `DIRECT_URL` = pooler em modo sessão (porta 5432), usada só pelas migrations.

@@ -1,4 +1,4 @@
-/** Horários de funcionamento, sempre no fuso de Vitória (America/Sao_Paulo). */
+/** Horários e agendamento, sempre no fuso de São Paulo (America/Sao_Paulo). */
 
 export const STORE_TZ = "America/Sao_Paulo";
 
@@ -8,6 +8,12 @@ export interface DayHours {
   close: string; // "15:00"
   enabled: boolean;
 }
+
+/** A loja não trabalha com expediente: aceita pedidos a qualquer hora (pausa pelo painel). */
+export const ALWAYS_OPEN: DayHours[] = [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: "00:00", close: "24:00", enabled: true }));
+
+/** Janela oferecida para agendamentos (evita sugerir horários de madrugada). */
+export const SCHEDULE_WINDOW: DayHours[] = [0, 1, 2, 3, 4, 5, 6].map((day) => ({ day, open: "08:00", close: "22:00", enabled: true }));
 
 export const WEEKDAYS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 

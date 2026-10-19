@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Sobre nós",
-  description: "A Marmifit Camburi prepara marmitas frescas todos os dias em Vitória - ES.",
+  description: "A Marmifit Camburi prepara marmitas frescas todos os dias em Camburi, São Sebastião - SP.",
   alternates: { canonical: "/sobre" },
 };
 

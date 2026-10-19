@@ -57,7 +57,7 @@ Colorful plant-based bowl with grilled tofu glazed in soy, quinoa, roasted zucch
 - `frango-curry` — mild chicken curry with coconut rice (terça).
 - `feijoada-light` — light feijoada with lean cuts, rice, sautéed collard greens, farofa, orange slices (quarta).
 - `carne-assada` — sliced roast beef with potatoes and carrots (quinta).
-- `moqueca-capixaba` — traditional moqueca capixaba in a black clay pot (panela de barro), white fish, tomato, coriander, annatto, served with rice and pirão; Espírito Santo coastal mood (sexta).
+- `moqueca-caicara` — caiçara fish moqueca in a clay pot with coconut milk, coriander and plantain, served with rice and pirão; São Paulo north coast beach mood (sexta).
 - `galinhada` — Brazilian galinhada with saffron rice, chicken, corn and peas (sábado).
 
 ## 8. Combos — `public/images/combos/` e produtos

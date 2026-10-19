@@ -36,11 +36,14 @@ export function SectionHeading({
 
 export function PageHeader({ eyebrow, title, description, children }: { eyebrow?: string; title: string; description?: string; children?: React.ReactNode }) {
   return (
-    <section className="border-b border-cream-300/70 bg-cream-200/50 grain">
-      <div className="container-page py-12 sm:py-16">
-        {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf">{eyebrow}</p>}
-        <h1 className="mt-2 text-4xl font-semibold text-forest sm:text-5xl">{title}</h1>
-        {description && <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{description}</p>}
+    <section className="relative isolate overflow-hidden bg-forest text-cream">
+      <div aria-hidden className="absolute -left-24 -top-24 -z-10 size-96 animate-[blob_14s_ease-in-out_infinite] rounded-full bg-leaf/50 blur-3xl" />
+      <div aria-hidden className="absolute -bottom-32 right-0 -z-10 size-96 animate-[blob_18s_ease-in-out_infinite_reverse] rounded-full bg-tangerine/35 blur-3xl" />
+      <div aria-hidden className="absolute inset-0 -z-10 opacity-[0.07] [background-image:radial-gradient(#F8F5ED_1px,transparent_1px)] [background-size:22px_22px]" />
+      <div className="container-page animate-[rise_0.7s_cubic-bezier(0.22,1,0.36,1)_both] py-14 sm:py-20">
+        {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.2em] text-tangerine">{eyebrow}</p>}
+        <h1 className="mt-2 text-4xl font-semibold sm:text-6xl">{title}</h1>
+        {description && <p className="mt-4 max-w-2xl text-lg text-cream/75">{description}</p>}
         {children}
       </div>
     </section>

@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { MapPin, MessageCircle, Clock } from "lucide-react";
 import { Logo } from "@/components/store/logo";
-import { WEEKDAYS, type DayHours } from "@/lib/hours";
 import { whatsappLink } from "@/lib/whatsapp";
 
 export function Footer({
-  hours,
   whatsapp,
   pickupAddress,
 }: {
-  hours: DayHours[];
   whatsapp: string | null;
   pickupAddress: string;
 }) {
@@ -55,15 +52,7 @@ export function Footer({
           </ul>
         </div>
         <div>
-          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.2em] text-tangerine">Horários</h2>
-          <ul className="mt-4 space-y-1 text-sm text-cream/80">
-            {hours.map((h) => (
-              <li key={h.day} className="flex justify-between gap-4">
-                <span>{WEEKDAYS[h.day]}</span>
-                <span className="tabular-nums">{h.enabled ? `${h.open} – ${h.close}` : "Fechado"}</span>
-              </li>
-            ))}
-          </ul>
+          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.2em] text-tangerine">Onde estamos</h2>
           <p className="mt-4 flex gap-2 text-sm text-cream/80">
             <MapPin className="mt-0.5 size-4 shrink-0 text-tangerine" aria-hidden /> {pickupAddress}
           </p>

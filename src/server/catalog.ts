@@ -2,7 +2,7 @@ import "server-only";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 import type { Catalog } from "@/lib/pricing";
-import { parseHours, type DayHours } from "@/lib/hours";
+import { ALWAYS_OPEN, type DayHours } from "@/lib/hours";
 
 export const DEFAULT_HOURS: DayHours[] = [
   { day: 0, open: "11:00", close: "15:00", enabled: false },
@@ -20,7 +20,7 @@ export async function getSettings() {
     update: {},
     create: { id: "store", openingHours: DEFAULT_HOURS as unknown as object },
   });
-  return { ...settings, hours: parseHours(settings.openingHours) };
+  return { ...settings, hours: ALWAYS_OPEN };
 }
 
 export type StoreSettingsData = Awaited<ReturnType<typeof getSettings>>;

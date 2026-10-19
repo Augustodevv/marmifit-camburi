@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import { Menu, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
 import { Logo } from "@/components/store/logo";
 import { SearchDialog } from "@/components/store/search-dialog";
 import { useCart, cartCount } from "@/components/store/cart-store";
@@ -21,7 +21,7 @@ const NAV = [
   { href: "/contato", label: "Contato" },
 ];
 
-export function Header({ user }: { user: { name: string; role: string } | null }) {
+export function Header() {
   const pathname = usePathname();
   const lines = useCart((s) => s.lines);
   const bump = useCart((s) => s.bump);
@@ -34,7 +34,6 @@ export function Header({ user }: { user: { name: string; role: string } | null }
     if (bump > 0) controls.start({ scale: [1, 1.25, 0.95, 1], rotate: [0, -8, 6, 0], transition: { duration: 0.5 } });
   }, [bump, controls]);
 
-  const isAdmin = user?.role === "ADMIN" || user?.role === "STAFF";
 
   return (
     <header className="sticky top-0 z-40 border-b border-cream-300/70 bg-cream/85 backdrop-blur-md">
@@ -59,16 +58,6 @@ export function Header({ user }: { user: { name: string; role: string } | null }
         </nav>
         <div className="ml-auto flex items-center gap-1.5">
           <SearchDialog />
-          {isAdmin && (
-            <Link
-              href="/admin"
-              className="flex size-10 items-center justify-center rounded-full text-forest hover:bg-cream-200"
-              aria-label="Painel administrativo"
-              title="Painel administrativo"
-            >
-              <LayoutDashboard className="size-5" />
-            </Link>
-          )}
           <motion.div animate={controls}>
             <Link
               href="/carrinho"
@@ -103,11 +92,6 @@ export function Header({ user }: { user: { name: string; role: string } | null }
                 <Link href="/acompanhar" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 font-display text-lg text-forest hover:bg-cream-200">
                   Acompanhar pedido
                 </Link>
-                {isAdmin && (
-                  <Link href="/admin" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 font-display text-lg text-leaf hover:bg-cream-200">
-                    Painel administrativo
-                  </Link>
-                )}
               </nav>
             </SheetContent>
           </Sheet>

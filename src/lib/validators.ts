@@ -40,8 +40,8 @@ export const addressSchema = z.object({
   number: z.string().trim().min(1, "Informe o número").max(15),
   complement: z.string().trim().max(60).optional(),
   district: z.string().trim().min(2, "Informe o bairro").max(60),
-  city: z.string().trim().min(2).max(60).default("Vitória"),
-  state: z.string().trim().length(2).default("ES"),
+  city: z.string().trim().min(2).max(60).default("São Sebastião"),
+  state: z.string().trim().length(2).default("SP"),
   zip: z
     .string()
     .trim()

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHeader } from "@/components/store/section";
 import { ContactForm } from "@/components/store/contact-form";
 import { buttonVariants } from "@/components/ui/button";
 import { formatPhone } from "@/lib/format";
-import { WEEKDAYS } from "@/lib/hours";
 import { whatsappLink } from "@/lib/whatsapp";
 import { getSettings } from "@/server/catalog";
 
@@ -30,14 +29,6 @@ export default async function ContactPage() {
             <li className="flex gap-3"><MapPin className="size-5 shrink-0 text-leaf" aria-hidden /> {s.pickupAddress}</li>
             {s.phone && <li className="flex gap-3"><Phone className="size-5 shrink-0 text-leaf" aria-hidden /> <a href={`tel:${s.phone.replace(/\D/g, "")}`}>{formatPhone(s.phone)}</a></li>}
             {s.email && <li className="flex gap-3"><Mail className="size-5 shrink-0 text-leaf" aria-hidden /> <a href={`mailto:${s.email}`}>{s.email}</a></li>}
-            <li className="flex gap-3">
-              <Clock className="size-5 shrink-0 text-leaf" aria-hidden />
-              <span>
-                {s.hours.filter((h) => h.enabled).map((h) => (
-                  <span key={h.day} className="block">{WEEKDAYS[h.day]}: {h.open} – {h.close}</span>
-                ))}
-              </span>
-            </li>
           </ul>
         </div>
         <ContactForm />

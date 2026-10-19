@@ -1,12 +1,11 @@
 import { Header } from "@/components/store/header";
 import { Footer } from "@/components/store/footer";
-import { getSession } from "@/lib/auth";
 import { getSettings } from "@/server/catalog";
 
 export const dynamic = "force-dynamic";
 
 export default async function StoreLayout({ children }: LayoutProps<"/">) {
-  const [session, settings] = await Promise.all([getSession(), getSettings()]);
+  const settings = await getSettings();
   return (
     <>
       <a
@@ -15,11 +14,11 @@ export default async function StoreLayout({ children }: LayoutProps<"/">) {
       >
         Pular para o conteúdo
       </a>
-      <Header user={session ? { name: session.name, role: session.role } : null} />
+      <Header />
       <main id="conteudo" className="flex-1">
         {children}
       </main>
-      <Footer hours={settings.hours} whatsapp={settings.whatsappNumber} pickupAddress={settings.pickupAddress} />
+      <Footer whatsapp={settings.whatsappNumber} pickupAddress={settings.pickupAddress} />
     </>
   );
 }

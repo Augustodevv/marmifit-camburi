@@ -360,13 +360,6 @@ export async function toggleCoupon(id: string) {
 
 export async function saveSettings(_prev: AdminState, fd: FormData): Promise<AdminState> {
   await requireOwner();
-  const hours = [0, 1, 2, 3, 4, 5, 6].map((day) => ({
-    day,
-    open: str(fd, `open-${day}`) || "10:30",
-    close: str(fd, `close-${day}`) || "15:00",
-    enabled: bool(fd, `enabled-${day}`),
-  }));
-  if (hours.some((h) => h.enabled && h.open >= h.close)) return fail("O horário de fechamento deve ser depois da abertura.");
   const whatsapp = str(fd, "whatsappNumber").replace(/\D/g, "");
   if (whatsapp && (whatsapp.length < 10 || whatsapp.length > 13)) return fail("WhatsApp inválido (use DDD).");
   const minOrder = toCents(fd.get("minOrder")) ?? 0;
@@ -383,7 +376,7 @@ export async function saveSettings(_prev: AdminState, fd: FormData): Promise<Adm
       phone: optStr(fd, "phone"),
       email: optStr(fd, "email"),
       instagram: optStr(fd, "instagram"),
-      pickupAddress: str(fd, "pickupAddress") || "Camburi, Vitória - ES",
+      pickupAddress: str(fd, "pickupAddress") || "Camburi, São Sebastião - SP",
       heroImage,
       acceptingOrders: bool(fd, "acceptingOrders"),
       minOrder,
@@ -393,7 +386,6 @@ export async function saveSettings(_prev: AdminState, fd: FormData): Promise<Adm
       pointsPerReal: Math.max(0, int(fd, "pointsPerReal", 1)),
       pointsPerRedemption: Math.max(1, int(fd, "pointsPerRedemption", 100)),
       redemptionValue,
-      openingHours: hours,
     },
   });
   refreshStore();

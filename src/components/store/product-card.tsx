@@ -29,14 +29,14 @@ export function ProductCard({
       : 0;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-cream-300/80 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-cream-300/80 bg-white shadow-soft transition duration-500 hover:-translate-y-2 hover:border-tangerine/60 hover:shadow-[0_30px_60px_-20px_rgba(22,59,46,0.45)]">
       <Link href={`/cardapio/${product.slug}`} className="relative block overflow-hidden" tabIndex={-1} aria-hidden>
         <FoodImage
           src={product.image}
           alt={product.name}
           seed={product.slug}
           priority={priority}
-          className="aspect-[4/3] w-full transition duration-500 group-hover:scale-[1.03]"
+          className="aspect-[4/3] w-full transition duration-700 group-hover:scale-110 group-hover:rotate-1"
         />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           {discount > 0 && (

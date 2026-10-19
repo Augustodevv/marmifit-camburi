@@ -9,7 +9,7 @@ import { getListingContext } from "@/server/viewer";
 
 export const metadata: Metadata = {
   title: "Marmitas do dia",
-  description: "Um prato especial a cada dia da semana: strogonoff, feijoada light, moqueca capixaba e mais.",
+  description: "Um prato especial a cada dia da semana: strogonoff, feijoada light, moqueca caiçara e mais.",
   alternates: { canonical: "/marmitas-do-dia" },
 };
 

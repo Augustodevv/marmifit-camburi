@@ -12,7 +12,7 @@ describe("helpers do painel", () => {
     expect(centsToInput(2690)).toBe("26,90");
   });
   it("gera slugs", () => {
-    expect(slugify("Moqueca Capixaba de Peixe!")).toBe("moqueca-capixaba-de-peixe");
+    expect(slugify("Moqueca Caiçara de Peixe!")).toBe("moqueca-caicara-de-peixe");
     expect(slugify("Purê de abóbora")).toBe("pure-de-abobora");
   });
   it("valida imagens (só caminho local ou https)", () => {

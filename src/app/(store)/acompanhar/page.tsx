@@ -39,7 +39,7 @@ export default async function TrackPage({ searchParams }: PageProps<"/acompanhar
           </div>
           <div>
             <label htmlFor="phone" className="text-sm font-semibold text-forest">Telefone</label>
-            <input id="phone" name="phone" required inputMode="tel" placeholder="(27) 99999-9999" className="mt-1.5 h-11 w-full rounded-xl border border-input px-3 outline-none focus:border-leaf" />
+            <input id="phone" name="phone" required inputMode="tel" placeholder="(12) 99999-9999" className="mt-1.5 h-11 w-full rounded-xl border border-input px-3 outline-none focus:border-leaf" />
           </div>
           {error && <p className="text-sm font-medium text-destructive" role="alert">{error}</p>}
           <Button type="submit" size="xl" className="w-full">Acompanhar</Button>

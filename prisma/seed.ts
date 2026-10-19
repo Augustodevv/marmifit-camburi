@@ -133,7 +133,7 @@ const products: Prod[] = [
   { slug: "frango-curry", name: "Frango ao curry com arroz de coco", category: "do-dia", basePrice: 2890, dailyDays: [2], description: "Toda terça: frango ao curry suave, arroz de coco e legumes.", ingredientsText: "Frango, curry, leite de coco, arroz branco, cenoura, vagem, cebola e alho." },
   { slug: "feijoada-light", name: "Feijoada light", category: "do-dia", basePrice: 3190, dailyDays: [3], description: "Toda quarta: feijoada com cortes magros, arroz, couve, farofa e laranja.", ingredientsText: "Feijão preto, lombo suíno, carne seca, linguiça de frango, arroz, couve, farinha de mandioca, laranja.", allergens: ["Leite"] },
   { slug: "carne-assada", name: "Carne assada com legumes", category: "do-dia", basePrice: 3290, dailyDays: [4], description: "Toda quinta: lagarto assado com batatas, cenoura e arroz.", ingredientsText: "Lagarto bovino, batata, cenoura, cebola, arroz branco, alho e ervas." },
-  { slug: "moqueca-capixaba", name: "Moqueca capixaba de peixe", category: "do-dia", basePrice: 3590, dailyDays: [5], featured: true, tags: ["capixaba"], description: "Toda sexta: moqueca de peixe com urucum e coentro, arroz e pirão.", ingredientsText: "Peixe branco, tomate, cebola, coentro, cebolinha, urucum, azeite, limão, arroz branco, farinha de mandioca.", allergens: ["Peixe"] },
+  { slug: "moqueca-caicara", name: "Moqueca caiçara de peixe", category: "do-dia", basePrice: 3590, dailyDays: [5], featured: true, tags: ["caiçara"], description: "Toda sexta: moqueca de peixe com leite de coco, coentro e banana-da-terra, arroz e pirão.", ingredientsText: "Peixe branco, leite de coco, tomate, cebola, pimentão, coentro, banana-da-terra, azeite de dendê, limão, arroz branco, farinha de mandioca.", allergens: ["Peixe"] },
   { slug: "galinhada", name: "Galinhada caipira", category: "do-dia", basePrice: 2890, dailyDays: [6], description: "Todo sábado: galinhada com açafrão, milho, ervilha e salada.", ingredientsText: "Frango, arroz, açafrão-da-terra, milho, ervilha, pimentão, cebola, alho e cheiro-verde." },
 
   { slug: "combo-familia-4", name: "Combo Família — 4 marmitas", category: "combos-familiares", basePrice: 9990, compareAtPrice: 11960, hasSizes: false, featured: true, tags: ["promoção"], description: "4 marmitas médias tradicionais (sabores sortidos do cardápio do dia) para a família toda.", ingredientsText: "Composição varia conforme o cardápio do dia. Informe preferências nas observações." },
@@ -144,16 +144,16 @@ const products: Prod[] = [
 ];
 
 const zones = [
-  ["Jardim Camburi", 500, 30],
-  ["Pontal de Camburi", 500, 30],
-  ["Mata da Praia", 600, 35],
-  ["Jardim da Penha", 600, 35],
-  ["Bairro República", 700, 40],
-  ["Goiabeiras", 700, 40],
-  ["Antônio Honório", 700, 40],
-  ["Praia do Canto", 900, 45],
-  ["Santa Lúcia", 900, 45],
-  ["Enseada do Suá", 1000, 50],
+  ["Camburi", 500, 25],
+  ["Camburizinho", 500, 25],
+  ["Baleia", 700, 30],
+  ["Barra do Sahy", 800, 35],
+  ["Boiçucanga", 800, 35],
+  ["Juquehy", 900, 40],
+  ["Maresias", 1000, 40],
+  ["Barra do Una", 1100, 45],
+  ["Paúba", 1100, 45],
+  ["Toque-Toque Pequeno", 1300, 50],
 ] as const;
 
 async function main() {

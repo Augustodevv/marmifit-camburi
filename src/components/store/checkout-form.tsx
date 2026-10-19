@@ -40,7 +40,7 @@ interface Quote {
   etaMinutes: number | null;
 }
 
-const EMPTY_ADDR: Addr = { label: "Casa", street: "", number: "", complement: "", district: "", city: "Vitória", state: "ES", zip: "", reference: "" };
+const EMPTY_ADDR: Addr = { label: "Casa", street: "", number: "", complement: "", district: "", city: "São Sebastião", state: "SP", zip: "", reference: "" };
 
 export function CheckoutForm(props: {
   zones: { district: string; fee: number; eta: number }[];
@@ -227,7 +227,7 @@ export function CheckoutForm(props: {
         <Fieldset step={1} title="Seus dados">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Nome completo" id="name" value={name} onChange={setName} autoComplete="name" required />
-            <Field label="WhatsApp / telefone" id="phone" value={phone} onChange={setPhone} autoComplete="tel" inputMode="tel" placeholder="(27) 99999-9999" required />
+            <Field label="WhatsApp / telefone" id="phone" value={phone} onChange={setPhone} autoComplete="tel" inputMode="tel" placeholder="(12) 99999-9999" required />
             <Field label="E-mail (opcional)" id="email" value={email} onChange={setEmail} autoComplete="email" type="email" className="sm:col-span-2" />
           </div>
         </Fieldset>
@@ -243,7 +243,7 @@ export function CheckoutForm(props: {
             <div className="mt-5 space-y-4">
               <div className="grid gap-4 sm:grid-cols-6">
                 <div className="relative sm:col-span-2">
-                  <Field label="CEP" id="zip" value={addr.zip} onChange={(v) => setAddr({ ...addr, zip: v })} onBlur={lookupCep} inputMode="numeric" autoComplete="postal-code" placeholder="29090-000" required />
+                  <Field label="CEP" id="zip" value={addr.zip} onChange={(v) => setAddr({ ...addr, zip: v })} onBlur={lookupCep} inputMode="numeric" autoComplete="postal-code" placeholder="11600-000" required />
                   {cepLoading && <Loader2 className="absolute right-3 top-9 size-4 animate-spin text-muted-foreground" aria-label="Buscando CEP" />}
                 </div>
                 <div className="sm:col-span-4">
