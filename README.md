@@ -68,8 +68,8 @@ Acesse `http://localhost:3000` e o painel em `/admin` com o e-mail/senha do `.en
 `tests/` cobre o motor de preços e validação do configurador (limites, estilos, regras, porção extra, nutrição), cupons, pontos, frete, horários/agendamento no fuso de Vitória, assinatura do webhook do Mercado Pago e helpers de segurança do painel.
 
 ## Deploy na Vercel
-1. Crie um banco PostgreSQL (Vercel Marketplace → Neon, ou Supabase/Prisma Postgres) e copie a URL com `sslmode=require` (prefira a URL com pooler).
-2. Importe o repositório na Vercel. Variáveis de ambiente: `DATABASE_URL`, `DATABASE_POOL_MAX=5`, `AUTH_SECRET`, `NEXT_PUBLIC_SITE_URL` (URL final), `ADMIN_EMAIL`, `ADMIN_PASSWORD` e, quando tiver, `MERCADOPAGO_ACCESS_TOKEN` e `MERCADOPAGO_WEBHOOK_SECRET`.
+1. Crie um banco PostgreSQL (Supabase, Neon ou Prisma Postgres). Com Supabase: `DATABASE_URL` = pooler em modo transação (porta 6543) e `DIRECT_URL` = pooler em modo sessão (porta 5432), usada só pelas migrations.
+2. Importe o repositório na Vercel. Variáveis de ambiente: `DATABASE_URL`, `DIRECT_URL` (se usar pooler), `DATABASE_POOL_MAX=5`, `AUTH_SECRET`, `NEXT_PUBLIC_SITE_URL` (URL final), `ADMIN_EMAIL`, `ADMIN_PASSWORD` e, quando tiver, `MERCADOPAGO_ACCESS_TOKEN` e `MERCADOPAGO_WEBHOOK_SECRET`.
 3. O script `vercel-build` roda `prisma generate`, `prisma migrate deploy` e `next build`.
 4. Popule o banco uma vez: `DATABASE_URL="..." npm run db:seed` (pela sua máquina).
 5. Mercado Pago: em *Suas integrações → Webhooks*, cadastre `https://SEU-DOMINIO/api/webhooks/mercadopago` com o evento **Pagamentos** e copie a assinatura secreta para `MERCADOPAGO_WEBHOOK_SECRET`. Teste com as credenciais de teste antes das de produção.
