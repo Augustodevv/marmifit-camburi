@@ -57,3 +57,9 @@ User, Address, Category, Size, Style, Ingredient (com nutrição por 100 g opcio
 - Etapa 3: painel administrativo (pedidos, cardápio do dia, produtos, categorias, ingredientes, tamanhos, estilos/regras, cupons, configurações, relatórios/CSV, mensagens, equipe).
 - Validação: typecheck e lint limpos, 28 testes passando, `next build` ok. Fluxo testado no navegador: configurador → carrinho → checkout → pedido MF00002 → painel → Em preparo → Saiu para entrega → Entregue.
 - Deploy: GitHub + Vercel (ver README).
+
+## Entrega final (out/2026)
+- Loja em Camburi, São Sebastião - SP (Litoral Norte), pedidos sem cadastro, sem horário de funcionamento.
+- Site: https://marmifit-camburi.vercel.app · Painel da equipe: /admin
+- Banco: Supabase (projeto marmifit-camburi, sa-east-1). Imagens: Morphix (6 fotos aplicadas por scripts/apply-images.mjs).
+- Pendências: fotos e preços dos pratos reais (cardápio em prisma/seed.ts + painel), credenciais Mercado Pago, avaliação de nutrição verificada.
