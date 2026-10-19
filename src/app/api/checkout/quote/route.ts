@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { checkoutQuoteSchema } from "@/lib/validators";
-import { getSession } from "@/lib/auth";
 import { quoteCheckout } from "@/server/orders";
 
 /** Prévia do total (frete, cupom, pontos) sem gravar nada. */
@@ -10,8 +9,7 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Dados incompletos.", issues: parsed.error.issues.map((i) => i.message) }, { status: 400 });
   }
-  const session = await getSession();
-  const q = await quoteCheckout(parsed.data, session?.sub ?? null);
+  const q = await quoteCheckout(parsed.data, null);
   return NextResponse.json({
     subtotal: q.subtotal,
     deliveryFee: q.deliveryFee,

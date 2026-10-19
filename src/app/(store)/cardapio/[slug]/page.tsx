@@ -3,18 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, ShieldAlert, Star, BadgeCheck } from "lucide-react";
 import { FoodImage } from "@/components/store/food-image";
-import { FavoriteButton } from "@/components/store/favorite-button";
 import { ProductPurchase } from "@/components/store/product-purchase";
 import { NutritionTable } from "@/components/store/nutrition-table";
 import { ProductCard } from "@/components/store/product-card";
-import { ReviewForm } from "@/components/store/review-form";
 import { SectionHeading } from "@/components/store/section";
 import { db } from "@/lib/db";
 import { formatBRL, productPrice } from "@/lib/pricing";
 import { todayDailyIndex, WEEKDAYS } from "@/lib/hours";
 import { getProductBySlug, listProducts } from "@/server/catalog";
 import { getListingContext } from "@/server/viewer";
-import { getSession } from "@/lib/auth";
 
 export async function generateMetadata({ params }: PageProps<"/cardapio/[slug]">): Promise<Metadata> {
   const { slug } = await params;
@@ -30,24 +27,10 @@ export async function generateMetadata({ params }: PageProps<"/cardapio/[slug]">
 
 export default async function ProductPage({ params }: PageProps<"/cardapio/[slug]">) {
   const { slug } = await params;
-  const [product, ctx, session] = await Promise.all([getProductBySlug(slug), getListingContext(), getSession()]);
+  const [product, ctx] = await Promise.all([getProductBySlug(slug), getListingContext()]);
   if (!product) notFound();
 
-  const [related, reviewable] = await Promise.all([
-    listProducts({ id: { not: product.id }, OR: [{ categoryId: product.categoryId }, { featured: true }], dailyDays: { isEmpty: true } }),
-    session
-      ? db.order.findMany({
-          where: {
-            userId: session.sub,
-            status: "DELIVERED",
-            items: { some: { productId: product.id } },
-            reviews: { none: { productId: product.id } },
-          },
-          select: { id: true, number: true },
-          take: 1,
-        })
-      : Promise.resolve([]),
-  ]);
+  const related = await listProducts({ id: { not: product.id }, OR: [{ categoryId: product.categoryId }, { featured: true }], dailyDays: { isEmpty: true } });
 
   const today = todayDailyIndex();
   const blockedReason = product.available ? null : "Esgotado no momento. Volte mais tarde ou veja outras opções.";
@@ -97,7 +80,6 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="aspect-square w-full rounded-[2rem] shadow-lift"
           />
-          <FavoriteButton productId={product.id} initial={ctx.favoriteIds.has(product.id)} loggedIn={ctx.loggedIn} className="absolute right-4 top-4 size-12" />
         </div>
 
         <div>
@@ -157,8 +139,8 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
 
       <section className="mt-20" aria-labelledby="avaliacoes">
         <h2 id="avaliacoes" className="text-3xl font-semibold text-forest">Avaliações verificadas</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Somente clientes que receberam este prato podem avaliar.</p>
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_380px]">
+        
+        <div className="mt-6">
           <div className="space-y-4">
             {product.reviews.length === 0 && <p className="text-muted-foreground">Ainda sem avaliações. Peça e seja o primeiro!</p>}
             {product.reviews.map((r) => (
@@ -180,7 +162,7 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
               </article>
             ))}
           </div>
-          {reviewable[0] && <ReviewForm productId={product.id} orderId={reviewable[0].id} orderNumber={reviewable[0].number} />}
+          
         </div>
       </section>
 
@@ -189,7 +171,7 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
           <SectionHeading eyebrow="Recomendações" title="Combina com você também" href="/cardapio" />
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {related.slice(0, 4).map((p) => (
-              <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} isFavorite={ctx.favoriteIds.has(p.id)} loggedIn={ctx.loggedIn} />
+              <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} />
             ))}
           </div>
         </section>

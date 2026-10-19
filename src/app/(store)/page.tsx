@@ -37,8 +37,8 @@ export default async function HomePage() {
       key={p.id}
       product={p}
       defaultSize={ctx.defaultSize}
-      isFavorite={ctx.favoriteIds.has(p.id)}
-      loggedIn={ctx.loggedIn}
+     
+     
       priority={i !== undefined && i < 2}
     />
   );

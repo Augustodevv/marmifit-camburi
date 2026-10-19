@@ -45,12 +45,6 @@ export async function getCurrentUser() {
   });
 }
 
-export async function requireUser(next = "/conta") {
-  const user = await getCurrentUser();
-  if (!user) redirect(`/entrar?next=${encodeURIComponent(next)}`);
-  return user;
-}
-
 /** Garante papel administrativo. Usado em toda página e ação do painel. */
 export async function requireAdmin() {
   const user = await getCurrentUser();

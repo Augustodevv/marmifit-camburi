@@ -1,6 +1,6 @@
 # Marmifit Camburi
 
-Plataforma de pedidos online de marmitas: cardápio, configurador de marmitas, carrinho, checkout com Mercado Pago, acompanhamento de pedidos, área do cliente e painel administrativo.
+Plataforma de pedidos online de marmitas: cardápio, configurador de marmitas, carrinho, checkout com Mercado Pago, acompanhamento de pedidos e painel administrativo. O cliente pede sem criar conta; o login existe só para a equipe.
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · shadcn/ui (Base UI) · Framer Motion · Lucide · PostgreSQL · Prisma 7 · Zod 4 · Vitest · Vercel.
 
@@ -9,13 +9,12 @@ Plataforma de pedidos online de marmitas: cardápio, configurador de marmitas, c
 **Loja**
 - Home com hero animado, prato do dia, destaques, combos e avaliações verificadas
 - Cardápio com 11 categorias, busca, filtros (sem glúten, sem leite, promoção, disponível hoje) e ordenação
-- Página de cada prato: tamanhos, observações, ingredientes, alergênicos, nutrição (somente dados verificados), avaliações e recomendações
+- Página de cada prato: tamanhos, observações, ingredientes, alergênicos, nutrição (somente dados verificados) e recomendações
 - **Configurador em 7 etapas** (estilo, tamanho, proteína + porção extra, base, acompanhamentos, adicionais, observações): preço instantâneo, limites por tamanho, disponibilidade, restrições de estilo, regras de combinação, sugestões, resumo fixo (desktop) e inferior (celular)
 - Marmitas do dia por dia da semana; combos e promoções com cupons ativos
 - Carrinho persistente (localStorage) com conferência de preços no servidor
-- Checkout: entrega por bairro (com taxa e frete grátis), retirada, agendamento, cupom, pontos de fidelidade, Pix/cartão (Mercado Pago) ou pagamento na entrega; CEP via ViaCEP
+- Checkout sem cadastro: entrega por bairro (com taxa e frete grátis), retirada, agendamento, cupom, Pix/cartão (Mercado Pago) ou pagamento na entrega; CEP via ViaCEP
 - Acompanhamento do pedido com linha do tempo e atualização automática; busca por número + telefone
-- Conta: pedidos, **pedir novamente**, favoritos, endereços, fidelidade, notificações, dados e exclusão de conta (LGPD)
 - Busca instantânea (Ctrl+K ou /), skeletons, toasts, animação do carrinho
 
 **Painel (`/admin`)**
@@ -23,7 +22,7 @@ Plataforma de pedidos online de marmitas: cardápio, configurador de marmitas, c
 - Pedidos: filtros, busca, atualização a cada 15 s, alerta sonoro de novo pedido, fluxo de status validado, aviso ao cliente via WhatsApp
 - Cardápio do dia: disponibilidade de pratos e ingredientes, dias da semana
 - Produtos, categorias, ingredientes (com nutrição por 100 g e fonte), tamanhos (preço, multiplicador, limites, gramagens), estilos e regras de combinação, cupons
-- Entrega e horários: bairros/taxas, horários, pedido mínimo, fidelidade, WhatsApp, banner, equipe e permissões
+- Entrega e horários: bairros/taxas, horários, pedido mínimo, WhatsApp, banner, equipe e permissões
 - Relatórios por período com exportação CSV; mensagens do formulário de contato
 
 **Permissões:** `ADMIN` (proprietário) acessa tudo; `STAFF` (equipe) vê pedidos, disponibilidade e mensagens. O `proxy.ts` faz a checagem otimista e **toda página e ação do painel revalida o papel no banco**.
@@ -31,7 +30,7 @@ Plataforma de pedidos online de marmitas: cardápio, configurador de marmitas, c
 ## Segurança e regras de negócio
 - O servidor recalcula **tudo** antes de gravar o pedido: preços, tamanhos, regras do configurador, disponibilidade, dia do prato, horário/agendamento, área de entrega, cupom (validade, mínimo, limite de usos com update condicional), pontos e frete.
 - Pagamento confirmado apenas consultando a API do Mercado Pago (webhook com assinatura HMAC `x-signature` + conferência de referência e valor). Nenhum dado de cartão passa pela loja.
-- Sessão JWT (HS256) em cookie `httpOnly`/`sameSite=lax`, senhas com bcrypt (12), rate limit em login/cadastro/pedidos/rastreio, checagem de origem nos POSTs, proteção contra open redirect, cabeçalhos de segurança, CSV protegido contra injeção de fórmulas.
+- Sessão JWT (HS256) em cookie `httpOnly`/`sameSite=lax`, senhas com bcrypt (12), rate limit em login/pedidos/rastreio, checagem de origem nos POSTs, proteção contra open redirect, cabeçalhos de segurança, CSV protegido contra injeção de fórmulas.
 - Link de rastreio usa token aleatório (o número do pedido sozinho não expõe dados).
 - Informação nutricional nunca é estimada: aparece só quando todos os ingredientes têm os 6 valores **e** a fonte cadastrados.
 
@@ -50,7 +49,7 @@ npm run dev
 
 Com o `prisma dev` local use `DATABASE_POOL_MAX="1"` (ele aceita uma conexão por vez). Também funciona com qualquer PostgreSQL (Docker, Neon, Supabase).
 
-Acesse `http://localhost:3000` e o painel em `/admin` com o e-mail/senha do `.env`.
+Acesse `http://localhost:3000`. O painel fica em `/admin` (login da equipe em `/entrar`, com o e-mail/senha do `.env`).
 
 ### Scripts
 | Script | O que faz |

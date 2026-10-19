@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/conta", "/checkout", "/carrinho", "/pedido", "/api"] }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/entrar", "/checkout", "/carrinho", "/pedido", "/api"] }],
     sitemap: `${base}/sitemap.xml`,
   };
 }

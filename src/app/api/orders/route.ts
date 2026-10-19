@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { checkoutSchema } from "@/lib/validators";
-import { getSession } from "@/lib/auth";
 import { assertSameOrigin, clientIp, rateLimit } from "@/lib/security";
 import { CheckoutError, createOrder } from "@/server/orders";
 
@@ -16,9 +15,8 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-  const session = await getSession();
   try {
-    const { order, paymentUrl } = await createOrder(parsed.data, session?.sub ?? null);
+    const { order, paymentUrl } = await createOrder(parsed.data, null);
     return NextResponse.json({ number: order.number, token: order.trackingToken, paymentUrl }, { status: 201 });
   } catch (err) {
     if (err instanceof CheckoutError) {

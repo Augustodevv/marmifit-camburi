@@ -49,7 +49,6 @@ export function Footer({
           <h2 className="font-sans text-xs font-bold uppercase tracking-[0.2em] text-tangerine">Ajuda</h2>
           <ul className="mt-4 space-y-2 text-sm text-cream/80">
             <li><Link className="hover:text-white" href="/acompanhar">Acompanhar pedido</Link></li>
-            <li><Link className="hover:text-white" href="/conta">Minha conta</Link></li>
             <li><Link className="hover:text-white" href="/sobre">Sobre nós</Link></li>
             <li><Link className="hover:text-white" href="/contato">Contato</Link></li>
             <li><Link className="hover:text-white" href="/privacidade">Privacidade</Link></li>

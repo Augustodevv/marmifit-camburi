@@ -26,8 +26,6 @@ export default async function MenuPage({ searchParams }: PageProps<"/cardapio">)
         categories={categories.filter((c) => c.slug !== "personalizadas").map((c) => ({ slug: c.slug, name: c.name }))}
         products={products}
         defaultSize={ctx.defaultSize}
-        favoriteIds={[...ctx.favoriteIds]}
-        loggedIn={ctx.loggedIn}
         initialCategory={initialCategory}
       />
     </>

@@ -33,15 +33,12 @@ export default async function SettingsAdmin() {
             </div>
             <div className="mt-4"><Check label="Aceitando pedidos (desmarque para pausar a loja)" name="acceptingOrders" defaultChecked={s.acceptingOrders} /></div>
           </Panel>
-          <Panel title="Pedidos e fidelidade">
-            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <Panel title="Pedidos">
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
               <Field label="Pedido mínimo (R$)" name="minOrder" defaultValue={centsToInput(s.minOrder)} />
               <Field label="Frete grátis acima de (R$)" name="freeDeliveryMin" defaultValue={centsToInput(s.freeDeliveryMin)} hint="Vazio = nunca" />
               <Field label="Tempo de preparo (min)" name="prepTimeMinutes" type="number" defaultValue={s.prepTimeMinutes} />
               <Field label="Agendar até (dias)" name="maxScheduleDays" type="number" defaultValue={s.maxScheduleDays} />
-              <Field label="Pontos por R$ 1" name="pointsPerReal" type="number" defaultValue={s.pointsPerReal} />
-              <Field label="Pontos por resgate" name="pointsPerRedemption" type="number" defaultValue={s.pointsPerRedemption} />
-              <Field label="Valor do resgate (R$)" name="redemptionValue" defaultValue={centsToInput(s.redemptionValue)} />
             </div>
           </Panel>
           <Panel title="Horário de funcionamento">

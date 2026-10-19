@@ -43,8 +43,6 @@ interface Quote {
 const EMPTY_ADDR: Addr = { label: "Casa", street: "", number: "", complement: "", district: "", city: "Vitória", state: "ES", zip: "", reference: "" };
 
 export function CheckoutForm(props: {
-  user: { name: string; email: string; phone: string; points: number } | null;
-  addresses: Addr[];
   zones: { district: string; fee: number; eta: number }[];
   slots: { value: string; label: string; dayLabel: string }[];
   openNow: boolean;
@@ -52,7 +50,6 @@ export function CheckoutForm(props: {
   onlinePayment: boolean;
   pickupAddress: string;
   freeDeliveryMin: number | null;
-  loyalty: { perRedemption: number; value: number };
 }) {
   const router = useRouter();
   const lines = useCart((s) => s.lines);
@@ -60,19 +57,16 @@ export function CheckoutForm(props: {
   const { errors: lineErrors } = useCartValidation();
   const mounted = useHydrated();
 
-  const [name, setName] = useState(props.user?.name ?? "");
-  const [phone, setPhone] = useState(props.user?.phone ?? "");
-  const [email, setEmail] = useState(props.user?.email ?? "");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [fulfillment, setFulfillment] = useState<"DELIVERY" | "PICKUP">("DELIVERY");
-  const [addrId, setAddrId] = useState<string>(props.addresses[0]?.id ?? "new");
-  const [addr, setAddr] = useState<Addr>(props.addresses[0] ?? EMPTY_ADDR);
-  const [saveAddress, setSaveAddress] = useState(!!props.user && props.addresses.length === 0);
+  const [addr, setAddr] = useState<Addr>(EMPTY_ADDR);
   const [when, setWhen] = useState<"now" | "schedule">(props.openNow ? "now" : "schedule");
   const [slot, setSlot] = useState(props.slots[0]?.value ?? "");
   const [payment, setPayment] = useState<"PIX" | "CARD" | "ON_DELIVERY">(props.onlinePayment ? "PIX" : "ON_DELIVERY");
   const [couponInput, setCouponInput] = useState("");
   const [coupon, setCoupon] = useState("");
-  const [usePoints, setUsePoints] = useState(false);
   const [notes, setNotes] = useState("");
   const [quoteState, setQuoteState] = useState<{ key: string; quote: Quote | null }>({ key: "", quote: null });
   const [submitting, setSubmitting] = useState(false);
@@ -90,7 +84,7 @@ export function CheckoutForm(props: {
     scheduledFor,
     paymentMethod: payment,
     couponCode: coupon,
-    usePoints,
+    usePoints: false,
   });
   const quote = quoteState.quote;
   const quoting = quoteState.key !== quotePayload;
@@ -167,9 +161,8 @@ export function CheckoutForm(props: {
           scheduledFor,
           paymentMethod: payment,
           couponCode: coupon,
-          usePoints,
+          usePoints: false,
           notes,
-          saveAddress: fulfillment === "DELIVERY" && addrId === "new" && saveAddress,
         }),
       });
       const data = await res.json();
@@ -225,18 +218,11 @@ export function CheckoutForm(props: {
   const zone = props.zones.find((z) => z.district === addr.district);
   const blocking = [...(quote?.problems ?? []), ...(coupon && quote?.couponError ? [quote.couponError] : [])];
   const canSubmit = !submitting && !quoting && quote !== null && blocking.length === 0 && Object.keys(lineErrors).length === 0;
-  const maxPointsDiscount = props.user ? Math.floor(props.user.points / props.loyalty.perRedemption) * props.loyalty.value : 0;
 
   return (
     <form onSubmit={submit} className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_400px]" noValidate>
       <div className="space-y-6">
         <h1 className="text-4xl font-semibold text-forest">Finalizar pedido</h1>
-        {!props.user && (
-          <p className="rounded-2xl bg-white p-4 text-sm shadow-soft">
-            Já tem conta?{" "}
-            <Link href="/entrar?next=/checkout" className="font-semibold text-leaf underline">Entre</Link> para usar endereços salvos, juntar pontos e acompanhar tudo na sua área.
-          </p>
-        )}
 
         <Fieldset step={1} title="Seus dados">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -255,34 +241,6 @@ export function CheckoutForm(props: {
             <p className="mt-4 rounded-xl bg-cream p-4 text-sm text-forest">Retire em: <strong>{props.pickupAddress}</strong></p>
           ) : (
             <div className="mt-5 space-y-4">
-              {props.addresses.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {props.addresses.map((a) => (
-                    <button
-                      key={a.id}
-                      type="button"
-                      onClick={() => {
-                        setAddrId(a.id!);
-                        setAddr(a);
-                      }}
-                      className={cn("rounded-xl border-2 px-3 py-2 text-left text-sm", addrId === a.id ? "border-leaf bg-leaf-100" : "border-cream-300 bg-white")}
-                    >
-                      <span className="block font-semibold text-forest">{a.label}</span>
-                      <span className="text-xs text-muted-foreground">{a.street}, {a.number} · {a.district}</span>
-                    </button>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAddrId("new");
-                      setAddr(EMPTY_ADDR);
-                    }}
-                    className={cn("rounded-xl border-2 border-dashed px-3 py-2 text-sm font-semibold", addrId === "new" ? "border-leaf text-leaf" : "border-cream-300 text-muted-foreground")}
-                  >
-                    + Novo endereço
-                  </button>
-                </div>
-              )}
               <div className="grid gap-4 sm:grid-cols-6">
                 <div className="relative sm:col-span-2">
                   <Field label="CEP" id="zip" value={addr.zip} onChange={(v) => setAddr({ ...addr, zip: v })} onBlur={lookupCep} inputMode="numeric" autoComplete="postal-code" placeholder="29090-000" required />
@@ -310,12 +268,6 @@ export function CheckoutForm(props: {
                 <Field label="Complemento" id="complement" value={addr.complement} onChange={(v) => setAddr({ ...addr, complement: v })} autoComplete="address-line2" className="sm:col-span-3" />
                 <Field label="Ponto de referência" id="reference" value={addr.reference} onChange={(v) => setAddr({ ...addr, reference: v })} className="sm:col-span-3" />
               </div>
-              {props.user && addrId === "new" && (
-                <label className="flex items-center gap-2 text-sm text-forest">
-                  <input type="checkbox" checked={saveAddress} onChange={(e) => setSaveAddress(e.target.checked)} className="size-4 accent-[#43865B]" />
-                  Salvar este endereço na minha conta
-                </label>
-              )}
               {props.freeDeliveryMin && <p className="text-xs text-muted-foreground">Entrega grátis em pedidos acima de {formatBRL(props.freeDeliveryMin)}.</p>}
             </div>
           )}
@@ -413,18 +365,6 @@ export function CheckoutForm(props: {
               <Button type="button" variant="secondary" size="lg" onClick={() => setCoupon(couponInput.trim())} disabled={!couponInput.trim()}>Aplicar</Button>
             )}
           </div>
-
-          {props.user && maxPointsDiscount > 0 && (
-            <label className="flex items-start gap-2 rounded-xl bg-leaf-100 p-3 text-sm text-forest">
-              <input type="checkbox" checked={usePoints} onChange={(e) => setUsePoints(e.target.checked)} className="mt-0.5 size-4 accent-[#43865B]" />
-              <span>
-                Usar meus pontos ({props.user.points} pts)
-                <span className="block text-xs text-muted-foreground">
-                  Cada {props.loyalty.perRedemption} pontos valem {formatBRL(props.loyalty.value)}.
-                </span>
-              </span>
-            </label>
-          )}
 
           <dl className="space-y-1.5 border-t border-dashed border-cream-300 pt-4 text-sm">
             <Row label="Subtotal" value={quote ? formatBRL(quote.subtotal) : null} />

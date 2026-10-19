@@ -28,7 +28,7 @@ export default async function CombosPage() {
   const families = combos.filter((p) => p.category.slug === "combos-familiares");
   const weekly = combos.filter((p) => p.category.slug !== "combos-familiares");
   const card = (p: (typeof combos)[number]) => (
-    <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} isFavorite={ctx.favoriteIds.has(p.id)} loggedIn={ctx.loggedIn} />
+    <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} />
   );
 
   return (

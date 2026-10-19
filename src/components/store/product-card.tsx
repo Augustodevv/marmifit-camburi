@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { FoodImage } from "@/components/store/food-image";
-import { FavoriteButton } from "@/components/store/favorite-button";
 import { QuickAdd } from "@/components/store/quick-add";
 import { formatBRL, productPrice } from "@/lib/pricing";
 import { WEEKDAYS } from "@/lib/hours";
@@ -17,14 +16,10 @@ export interface CardSize {
 export function ProductCard({
   product,
   defaultSize,
-  isFavorite = false,
-  loggedIn = false,
   priority,
 }: {
   product: ProductCardData;
   defaultSize: CardSize | null;
-  isFavorite?: boolean;
-  loggedIn?: boolean;
   priority?: boolean;
 }) {
   const price = productPrice(product, product.hasSizes ? defaultSize : null);
@@ -57,7 +52,6 @@ export function ProductCard({
           )}
         </div>
       </Link>
-      <FavoriteButton productId={product.id} initial={isFavorite} loggedIn={loggedIn} className="absolute right-3 top-3 z-10" />
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-leaf">{product.category.name}</p>
         <h3 className="mt-1.5 text-lg font-semibold leading-snug text-forest">

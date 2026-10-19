@@ -43,7 +43,7 @@ export default async function DailyPage() {
                 ) : (
                   <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {list.map((p) => (
-                      <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} isFavorite={ctx.favoriteIds.has(p.id)} loggedIn={ctx.loggedIn} />
+                      <ProductCard key={p.id} product={p} defaultSize={ctx.defaultSize} />
                     ))}
                   </div>
                 )}

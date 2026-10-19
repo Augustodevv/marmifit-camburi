@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import { Menu, ShoppingBag, User, LayoutDashboard } from "lucide-react";
+import { Menu, ShoppingBag, LayoutDashboard } from "lucide-react";
 import { Logo } from "@/components/store/logo";
 import { SearchDialog } from "@/components/store/search-dialog";
 import { useCart, cartCount } from "@/components/store/cart-store";
@@ -62,21 +62,13 @@ export function Header({ user }: { user: { name: string; role: string } | null }
           {isAdmin && (
             <Link
               href="/admin"
-              className="hidden size-10 items-center justify-center rounded-full text-forest hover:bg-cream-200 sm:flex"
+              className="flex size-10 items-center justify-center rounded-full text-forest hover:bg-cream-200"
               aria-label="Painel administrativo"
               title="Painel administrativo"
             >
               <LayoutDashboard className="size-5" />
             </Link>
           )}
-          <Link
-            href={user ? "/conta" : "/entrar"}
-            className="flex h-10 items-center gap-2 rounded-full px-2.5 text-sm font-medium text-forest hover:bg-cream-200"
-            aria-label={user ? "Minha conta" : "Entrar"}
-          >
-            <User className="size-5" />
-            <span className="hidden max-w-28 truncate md:inline">{user ? user.name.split(" ")[0] : "Entrar"}</span>
-          </Link>
           <motion.div animate={controls}>
             <Link
               href="/carrinho"

@@ -25,22 +25,17 @@ export function MenuBrowser({
   categories,
   products,
   defaultSize,
-  favoriteIds,
-  loggedIn,
   initialCategory,
 }: {
   categories: { slug: string; name: string }[];
   products: ProductCardData[];
   defaultSize: CardSize | null;
-  favoriteIds: string[];
-  loggedIn: boolean;
   initialCategory: string;
 }) {
   const [category, setCategory] = useState(initialCategory);
   const [q, setQ] = useState("");
   const [active, setActive] = useState<string[]>([]);
   const [sort, setSort] = useState<Sort>("relevancia");
-  const favs = useMemo(() => new Set(favoriteIds), [favoriteIds]);
 
   const visible = useMemo(() => {
     const term = q.trim().toLowerCase();
@@ -151,7 +146,7 @@ export function MenuBrowser({
           <AnimatePresence mode="popLayout">
             {visible.map((p, i) => (
               <motion.div key={p.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.25 }}>
-                <ProductCard product={p} defaultSize={defaultSize} isFavorite={favs.has(p.id)} loggedIn={loggedIn} priority={i < 4} />
+                <ProductCard product={p} defaultSize={defaultSize} priority={i < 4} />
               </motion.div>
             ))}
           </AnimatePresence>
