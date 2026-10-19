@@ -1,5 +1,6 @@
 import { Header } from "@/components/store/header";
 import { Footer } from "@/components/store/footer";
+import { WhatsAppFab } from "@/components/store/whatsapp-fab";
 import { getSettings } from "@/server/catalog";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +19,8 @@ export default async function StoreLayout({ children }: LayoutProps<"/">) {
       <main id="conteudo" className="flex-1">
         {children}
       </main>
-      <Footer whatsapp={settings.whatsappNumber} pickupAddress={settings.pickupAddress} />
+      <Footer whatsapp={settings.whatsappNumber} phone={settings.phone} pickupAddress={settings.pickupAddress} />
+      {settings.whatsappNumber && <WhatsAppFab phone={settings.whatsappNumber} />}
     </>
   );
 }

@@ -27,7 +27,22 @@ export default async function ContactPage() {
           )}
           <ul className="space-y-3 rounded-3xl border border-cream-300 bg-white p-6 text-sm text-forest shadow-soft">
             <li className="flex gap-3"><MapPin className="size-5 shrink-0 text-leaf" aria-hidden /> {s.pickupAddress}</li>
-            {s.phone && <li className="flex gap-3"><Phone className="size-5 shrink-0 text-leaf" aria-hidden /> <a href={`tel:${s.phone.replace(/\D/g, "")}`}>{formatPhone(s.phone)}</a></li>}
+            {(s.phone || s.whatsappNumber) && (
+              <li className="flex gap-3">
+                <Phone className="size-5 shrink-0 text-leaf" aria-hidden />
+                <a href={`tel:+55${(s.phone || s.whatsappNumber)!.replace(/\D/g, "").replace(/^55/, "")}`} className="font-semibold hover:underline">
+                  {formatPhone((s.phone || s.whatsappNumber)!)}
+                </a>
+              </li>
+            )}
+            {s.whatsappNumber && (
+              <li className="flex gap-3">
+                <MessageCircle className="size-5 shrink-0 text-leaf" aria-hidden />
+                <a href={whatsappLink(s.whatsappNumber, "Olá! Vim pelo site da Marmifit.")} target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline">
+                  WhatsApp {formatPhone(s.whatsappNumber)}
+                </a>
+              </li>
+            )}
             {s.email && <li className="flex gap-3"><Mail className="size-5 shrink-0 text-leaf" aria-hidden /> <a href={`mailto:${s.email}`}>{s.email}</a></li>}
           </ul>
         </div>

@@ -1,15 +1,19 @@
 import Link from "next/link";
-import { MapPin, MessageCircle, Clock } from "lucide-react";
+import { MapPin, MessageCircle, Clock, Phone } from "lucide-react";
 import { Logo } from "@/components/store/logo";
 import { whatsappLink } from "@/lib/whatsapp";
+import { formatPhone } from "@/lib/format";
 
 export function Footer({
   whatsapp,
+  phone,
   pickupAddress,
 }: {
   whatsapp: string | null;
+  phone: string | null;
   pickupAddress: string;
 }) {
+  const tel = phone || whatsapp;
   return (
     <footer className="mt-24 bg-forest text-cream">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
@@ -56,6 +60,21 @@ export function Footer({
           <p className="mt-4 flex gap-2 text-sm text-cream/80">
             <MapPin className="mt-0.5 size-4 shrink-0 text-tangerine" aria-hidden /> {pickupAddress}
           </p>
+          {tel && (
+            <a href={`tel:+55${tel.replace(/\D/g, "").replace(/^55/, "")}`} className="mt-3 flex items-center gap-2 text-sm text-cream/80 hover:text-white">
+              <Phone className="size-4 shrink-0 text-tangerine" aria-hidden /> {formatPhone(tel)}
+            </a>
+          )}
+          {whatsapp && (
+            <a
+              href={whatsappLink(whatsapp, "Olá! Vim pelo site da Marmifit.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 flex items-center gap-2 text-sm text-cream/80 hover:text-white"
+            >
+              <MessageCircle className="size-4 shrink-0 text-tangerine" aria-hidden /> WhatsApp {formatPhone(whatsapp)}
+            </a>
+          )}
         </div>
       </div>
       <div className="border-t border-cream/10">
