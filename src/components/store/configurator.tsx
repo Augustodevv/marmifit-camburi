@@ -208,7 +208,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
   );
 
   return (
-    <div className="container-page grid gap-8 pb-32 pt-8 lg:grid-cols-[1fr_380px] lg:pb-16">
+    <div className="container-page grid grid-cols-1 gap-8 pb-32 pt-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:pb-16">
       <div>
         {/* Indicador de etapas */}
         <nav aria-label="Etapas" className="-mx-4 overflow-x-auto px-4">

@@ -67,7 +67,7 @@ export function CartView() {
 
   if (!mounted) {
     return (
-      <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_380px]">
+      <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="space-y-4">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-32 rounded-2xl bg-cream-200" />)}</div>
         <Skeleton className="h-72 rounded-3xl bg-cream-200" />
       </div>
@@ -96,7 +96,7 @@ export function CartView() {
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
-    <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_380px]">
+    <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_380px]">
       <section aria-labelledby="cart-title">
         <div className="flex items-end justify-between">
           <h1 id="cart-title" className="text-4xl font-semibold text-forest">Carrinho</h1>

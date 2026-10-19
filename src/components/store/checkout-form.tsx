@@ -189,7 +189,7 @@ export function CheckoutForm(props: {
 
   if (!mounted) {
     return (
-      <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_400px]">
+      <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_400px]">
         <Skeleton className="h-[600px] rounded-3xl bg-cream-200" />
         <Skeleton className="h-80 rounded-3xl bg-cream-200" />
       </div>
@@ -220,7 +220,7 @@ export function CheckoutForm(props: {
   const canSubmit = !submitting && !quoting && quote !== null && blocking.length === 0 && Object.keys(lineErrors).length === 0;
 
   return (
-    <form onSubmit={submit} className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_400px]" noValidate>
+    <form onSubmit={submit} className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_400px]" noValidate>
       <div className="space-y-6">
         <h1 className="text-4xl font-semibold text-forest">Finalizar pedido</h1>
 
