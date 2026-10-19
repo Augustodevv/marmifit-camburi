@@ -47,3 +47,4 @@ next-env.d.ts
 # local
 .claude/
 skills-lock.json
+LINKEDIN.md
