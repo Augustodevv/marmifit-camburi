@@ -10,6 +10,7 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: process.env["DATABASE_URL"] ?? "",
+    // DIRECT_URL (conexão de sessão) é usada pela CLI/migrations; o app usa DATABASE_URL (pooler)
+    url: process.env["DIRECT_URL"] || process.env["DATABASE_URL"] || "",
   },
 });
