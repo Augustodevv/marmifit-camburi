@@ -21,10 +21,10 @@ Hoje o site usa 6 fotos provisórias em PNG (`public/images/produtos/*.png` e `c
 | Open Graph | `public/images/og/og.jpg` | 1200×630 |
 | Categorias | `public/images/categorias/<slug>.webp` | 1600×1200 (4:3) |
 | Produtos | `public/images/produtos/<slug>.webp` | 1200×900 (4:3) |
-| Combos (banner) | `public/images/combos/combos.webp` | 1600×900 |
-| Promoções | `public/images/promocoes/promo.webp` | 1600×900 |
+| Combos (banner, ainda não usado no site) | `public/images/combos/combos.webp` | 1600×900 |
+| Promoções (banner, ainda não usado no site) | `public/images/promocoes/promo.webp` | 1600×900 |
 | Ingredientes | `public/images/ingredientes/<slug>.webp` | 600×600 |
-| Cozinha (galeria) | `public/images/cozinha/cozinha-1.webp` … `cozinha-6.webp` | 1200×1500 (4:5) — **fotos reais**, ver seção 11 |
+| Cozinha (galeria) | `public/images/cozinha/cozinha-1.webp` … `cozinha-5.webp` | 1200×1500 (4:5) — **fotos reais**, ver seção 11 |
 
 ## Estilo base (inclua em todos os prompts)
 > Professional food photography for a premium Brazilian healthy restaurant, natural soft daylight from a window on the left, shallow depth of field, 50mm lens, f/2.8, realistic textures and steam, fresh ingredients, styled on a light oak table with a cream linen napkin, subtle dark green (#163B2E) and natural green (#43865B) props, small orange accent (#F59E42), warm and appetizing, editorial magazine quality, no text, no logos, no hands, no watermark, photorealistic.
@@ -120,7 +120,7 @@ Flat lay of three colorful meal boxes with a small orange (#F59E42) ribbon/tag p
 ## 10. Ingredientes do configurador (opcional) — `public/images/ingredientes/<slug>.webp` (600×600)
 Single-ingredient close-ups on cream background, top-down, soft shadow: grilled chicken cubes, beef cubes, ground beef, tilapia fillet, omelette, tofu, soy protein, white rice, brown rice, pasta, mashed potato, pumpkin purée, steamed vegetables, cauliflower rice, quinoa, carioca beans, black beans, green salad, broccoli, carrots, zucchini, green beans, farofa, sweet potato, fried egg, melted mozzarella, tomato sauce, honey mustard, pesto, grilled plantain.
 
-## 11. Nossa cozinha em Camburi — `public/images/cozinha/cozinha-1.webp` … `cozinha-6.webp` (1200×1500, 4:5)
+## 11. Nossa cozinha em Camburi — `public/images/cozinha/cozinha-1.webp` … `cozinha-5.webp` (1200×1500, 4:5)
 **Use fotos reais** da cozinha, da equipe e das entregas (celular serve, com boa luz natural). A seção "Nossa cozinha" diz que é a cozinha da loja, então imagens geradas por IA ali enganariam o cliente. Até as fotos existirem, a seção mostra as fotos dos pratos.
 Sugestões: bancada com a equipe montando marmitas (rostos opcionais, com autorização), panelas no fogão, ingredientes frescos chegando, marmitas fechadas e etiquetadas, saída para entrega, fachada ou vista de Camburi.
 

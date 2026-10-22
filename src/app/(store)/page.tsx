@@ -54,7 +54,8 @@ export default async function HomePage() {
     });
 
   // galeria da cozinha (5 fotos, a primeira ocupa duas linhas): fotos reais em public/images/cozinha;
-  // sem elas, fotos dos pratos (sem repetir)
+  // sem elas, fotos dos pratos (sem repetir).
+  // TODO(conteúdo): fotos reais da cozinha/equipe em public/images/cozinha/cozinha-1..5.webp
   const kitchen = [1, 2, 3, 4, 5, 6].map((n) => conventionalImage("cozinha", `cozinha-${n}`)).filter((s): s is string => !!s);
   const gallery = kitchen.length
     ? kitchen.slice(0, 5).map((src, i) => ({ src, blur: blurFor(src), alt: `Cozinha da Marmifit em Camburi, foto ${i + 1}` }))
@@ -86,6 +87,7 @@ export default async function HomePage() {
     { q: "Como sei o que tem em cada prato?", a: "Cada prato mostra os ingredientes e os alergênicos. A informação nutricional só aparece quando foi verificada." },
   ];
 
+  // TODO(conteúdo): confirmar com a loja os textos "Feito no dia" e "Cozinha própria em Camburi"
   const benefits = [
     { icon: ChefHat, title: "Feito no dia", text: "Cozinha própria em Camburi" },
     {
@@ -333,7 +335,9 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* avaliações: só as reais (aprovadas, com comentário). Sem nenhuma, a seção não aparece. */}
+      {/* avaliações: só as reais (aprovadas, com comentário). Sem nenhuma, a seção não aparece.
+          TODO(conteúdo): hoje nenhum fluxo cria avaliações (Review exige cliente com conta e o site
+          não tem cadastro). Definir como coletar depoimentos reais antes de esperar esta seção. */}
       {reviews.length > 0 && (
         <section className="container-page below-fold mt-20 sm:mt-28" aria-labelledby="avaliacoes">
           <Reveal>

@@ -14,6 +14,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/sobre",
 });
 
+// TODO(conteúdo): confirmar com a loja (ex.: "fornecedores locais", "cozinhamos no mesmo dia da entrega")
 const VALUES = [
   { icon: Sprout, title: "Ingredientes frescos", text: "Compramos de fornecedores locais e cozinhamos no mesmo dia da entrega." },
   { icon: Leaf, title: "Equilíbrio sem neura", text: "Opções tradicionais, fitness, low carb e veganas. Você escolhe o que faz sentido para você." },
@@ -24,6 +25,7 @@ const VALUES = [
 export default async function AboutPage() {
   const settings = await getSettings();
   // foto real da cozinha (public/images/cozinha/cozinha-1.webp); até lá, a foto do banner
+  // TODO(conteúdo): fotos reais da cozinha
   const kitchen = conventionalImage("cozinha", "cozinha-1");
   const photo = kitchen ?? settings.heroImage;
   return (
