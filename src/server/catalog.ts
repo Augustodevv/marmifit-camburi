@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 import type { Catalog } from "@/lib/pricing";
 import { ALWAYS_OPEN, type DayHours } from "@/lib/hours";
+import { resolveImage } from "@/lib/media";
 
 export const DEFAULT_HOURS: DayHours[] = [
   { day: 0, open: "11:00", close: "15:00", enabled: false },
@@ -75,7 +76,13 @@ export async function listProducts(where: Prisma.ProductWhereInput = {}) {
     include: productInclude,
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
   });
-  return products.map(withRating);
+  return products.map((p) => withMedia(withRating(p), "produtos"));
+}
+
+/** Foto do painel ou do arquivo por convenção (public/images/<pasta>/<slug>.webp) + blur. */
+function withMedia<T extends { image: string | null; slug: string }>(item: T, folder: string) {
+  const { src, blur } = resolveImage(item.image, folder, item.slug);
+  return { ...item, image: src, imageBlur: blur };
 }
 
 function withRating<T extends { reviews: { rating: number }[] }>(p: T) {
@@ -100,9 +107,10 @@ export async function getProductBySlug(slug: string) {
     },
   });
   if (!product || !product.active) return null;
-  return withRating(product);
+  return withMedia(withRating(product), "produtos");
 }
 
 export async function listCategories() {
-  return db.category.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" } });
+  const categories = await db.category.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" } });
+  return categories.map((c) => withMedia(c, "categorias"));
 }

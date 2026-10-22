@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const PALETTES = [
@@ -15,28 +18,48 @@ function hash(s: string) {
 }
 
 /**
- * Foto do prato quando cadastrada; caso contrário uma ilustração vetorial
- * (vista de cima de uma marmita) — nunca uma foto falsa.
+ * Foto do prato quando cadastrada (ou presente por convenção em public/); caso
+ * contrário — ou se o arquivo falhar — uma ilustração vetorial de marmita, nunca
+ * uma foto falsa. Use sempre com proporção fixa (ex.: aspect-[4/3]) para não
+ * haver layout shift.
  */
 export function FoodImage({
   src,
   alt,
   seed,
+  blurDataURL,
   className,
-  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
-  priority,
+  imgClassName,
+  sizes = "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+  preload,
 }: {
   src?: string | null;
   alt: string;
   seed: string;
+  /** blur do manifesto de mídia (src/lib/media.ts); sem ele, carrega sem placeholder */
+  blurDataURL?: string | null;
   className?: string;
+  /** classes da <img> (ex.: zoom no hover) */
+  imgClassName?: string;
   sizes?: string;
-  priority?: boolean;
+  /** só para a imagem principal da página (LCP) */
+  preload?: boolean;
 }) {
-  if (src) {
+  const [failed, setFailed] = useState(false);
+  if (src && !failed) {
     return (
       <div className={cn("relative overflow-hidden bg-cream-200", className)}>
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          preload={preload}
+          placeholder={blurDataURL ? "blur" : "empty"}
+          blurDataURL={blurDataURL ?? undefined}
+          onError={() => setFailed(true)}
+          className={cn("object-cover", imgClassName)}
+        />
       </div>
     );
   }
@@ -45,7 +68,7 @@ export function FoodImage({
   const rot = (h % 4) * 90;
   return (
     <div className={cn("relative overflow-hidden bg-forest grain", className)} role="img" aria-label={`Ilustração: ${alt}`}>
-      <svg viewBox="0 0 200 200" className="absolute inset-0 m-auto h-[82%] w-[82%] drop-shadow-xl" aria-hidden>
+      <svg viewBox="0 0 200 200" className={cn("absolute inset-0 m-auto h-[82%] w-[82%] drop-shadow-xl", imgClassName)} aria-hidden>
         <g transform={`rotate(${rot} 100 100)`}>
           <rect x="18" y="30" width="164" height="140" rx="26" fill="#0f2a20" opacity="0.35" transform="translate(4 6)" />
           <rect x="18" y="30" width="164" height="140" rx="26" fill="#FFFDF7" />

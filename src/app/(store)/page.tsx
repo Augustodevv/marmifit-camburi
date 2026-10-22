@@ -67,7 +67,7 @@ export default async function HomePage() {
         <Reveal className="container-page mt-16">
           <section aria-labelledby="prato-do-dia" className="group grid overflow-hidden rounded-panel bg-forest text-cream shadow-lift md:grid-cols-2">
             <div className="overflow-hidden">
-              <FoodImage src={todays.image} alt={todays.name} seed={todays.slug} className="aspect-[4/3] transition duration-700 group-hover:scale-105 md:aspect-auto md:h-full md:min-h-[380px]" />
+              <FoodImage src={todays.image} alt={todays.name} seed={todays.slug} blurDataURL={todays.imageBlur} className="aspect-[4/3] md:aspect-auto md:h-full md:min-h-[380px]" imgClassName="transition duration-700 group-hover:scale-105" />
             </div>
             <div className="relative flex flex-col justify-center p-8 sm:p-12">
               <span className="absolute right-8 top-8 rotate-12 rounded-full bg-tangerine px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-forest shadow-lift">Só hoje!</span>
@@ -93,9 +93,9 @@ export default async function HomePage() {
         </Reveal>
         <h2 id="destaques" className="sr-only">Destaques</h2>
         <StaggerGrid className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {featured.slice(0, 8).map((p, i) => (
+          {featured.slice(0, 8).map((p) => (
             <StaggerItem key={p.id}>
-              <ProductCard product={p} defaultSize={ctx.defaultSize} priority={i < 2} />
+              <ProductCard product={p} defaultSize={ctx.defaultSize} />
             </StaggerItem>
           ))}
         </StaggerGrid>

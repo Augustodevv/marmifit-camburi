@@ -16,11 +16,9 @@ export interface CardSize {
 export function ProductCard({
   product,
   defaultSize,
-  priority,
 }: {
   product: ProductCardData;
   defaultSize: CardSize | null;
-  priority?: boolean;
 }) {
   const price = productPrice(product, product.hasSizes ? defaultSize : null);
   const discount =
@@ -35,8 +33,9 @@ export function ProductCard({
           src={product.image}
           alt={product.name}
           seed={product.slug}
-          priority={priority}
-          className="aspect-[4/3] w-full transition duration-700 group-hover:scale-110 group-hover:rotate-1"
+          blurDataURL={product.imageBlur}
+          className="aspect-[4/3] w-full"
+          imgClassName="transition duration-700 group-hover:scale-105"
         />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           {discount > 0 && (

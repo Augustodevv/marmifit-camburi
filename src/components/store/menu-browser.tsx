@@ -145,9 +145,9 @@ export function MenuBrowser({
       ) : (
         <motion.div layout className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <AnimatePresence mode="popLayout">
-            {visible.map((p, i) => (
+            {visible.map((p) => (
               <motion.div key={p.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.25 }}>
-                <ProductCard product={p} defaultSize={defaultSize} priority={i < 4} />
+                <ProductCard product={p} defaultSize={defaultSize} />
               </motion.div>
             ))}
           </AnimatePresence>

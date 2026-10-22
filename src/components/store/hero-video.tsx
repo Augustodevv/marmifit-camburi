@@ -4,22 +4,9 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-/** Arquivos em /public/videos detectados no build (next.config.ts). Ver docs/higgsfield-prompts.md. */
-const LOCAL_FILES = new Set((process.env.NEXT_PUBLIC_HERO_VIDEO_FILES ?? "").split(",").filter(Boolean));
 const MOBILE_QUERY = "(max-width: 767px)";
 
-type Sources = { webm?: string; mp4: string; mobileMp4?: string };
-
-function localSources(): Sources | null {
-  const has = (f: string) => LOCAL_FILES.has(f);
-  const mp4 = has("hero.mp4") ? "/videos/hero.mp4" : has("hero-mobile.mp4") ? "/videos/hero-mobile.mp4" : null;
-  if (!mp4) return null;
-  return {
-    mp4,
-    webm: has("hero.webm") ? "/videos/hero.webm" : undefined,
-    mobileMp4: has("hero-mobile.mp4") && mp4 !== "/videos/hero-mobile.mp4" ? "/videos/hero-mobile.mp4" : undefined,
-  };
-}
+export type HeroVideoSources = { webm?: string; mp4: string; mobileMp4?: string };
 
 /** Vídeo só quando o visitante não pediu menos movimento nem economia de dados. */
 function videoAllowed() {
@@ -35,35 +22,35 @@ function videoAllowed() {
  */
 export function HeroVideo({
   poster,
-  videoUrl,
+  posterBlur,
+  video,
   alt,
   className,
 }: {
   /** imagem estática (banner do painel) */
   poster: string | null;
-  /** URL opcional cadastrada no painel; tem prioridade sobre os arquivos locais */
-  videoUrl?: string | null;
+  posterBlur?: string;
+  /** vídeo do painel ou arquivos de public/videos; null = só a imagem */
+  video: HeroVideoSources | null;
   alt: string;
   className?: string;
 }) {
-  const [sources, setSources] = useState<Sources | null>(null);
+  const [sources, setSources] = useState<HeroVideoSources | null>(null);
   const [playing, setPlaying] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!videoAllowed()) return;
-    const chosen = videoUrl ? { mp4: videoUrl } : localSources();
-    if (!chosen) return;
+    if (!video || !videoAllowed()) return;
     // espera a página terminar de carregar para não disputar banda com o LCP
-    const start = () => setSources(chosen);
+    const start = () => setSources(video);
     if (document.readyState === "complete") {
       const id = window.setTimeout(start, 0);
       return () => window.clearTimeout(id);
     }
     window.addEventListener("load", start, { once: true });
     return () => window.removeEventListener("load", start);
-  }, [videoUrl]);
+  }, [video]);
 
   // pausa fora da tela para poupar bateria
   useEffect(() => {
@@ -87,6 +74,8 @@ export function HeroVideo({
           fill
           preload
           fetchPriority="high"
+          placeholder={posterBlur ? "blur" : "empty"}
+          blurDataURL={posterBlur}
           quality={75}
           sizes="100vw"
           onError={() => setPosterFailed(true)}

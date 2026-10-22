@@ -76,7 +76,8 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
             src={product.image}
             alt={product.name}
             seed={product.slug}
-            priority
+            blurDataURL={product.imageBlur}
+            preload
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="aspect-square w-full rounded-panel shadow-lift"
           />

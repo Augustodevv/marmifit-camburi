@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, ArrowRight, Sparkles, Star } from "lucide-react";
 import { HeroVideo } from "@/components/store/hero-video";
+import { blurFor, localHeroVideo } from "@/lib/media";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +19,13 @@ export function Hero({
 }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate flex min-h-[calc(100svh-4rem)] overflow-hidden bg-forest text-cream lg:min-h-[calc(100svh-72px)]">
-      <HeroVideo poster={heroImage} videoUrl={heroVideo} alt="Marmitas recém-preparadas na cozinha da Marmifit em Camburi" className="-z-20" />
+      <HeroVideo
+        poster={heroImage}
+        posterBlur={heroImage ? blurFor(heroImage) : undefined}
+        video={heroVideo ? { mp4: heroVideo } : localHeroVideo()}
+        alt="Marmitas recém-preparadas na cozinha da Marmifit em Camburi"
+        className="-z-20"
+      />
 
       {/* gradientes: garantem contraste do texto claro sobre qualquer quadro do vídeo */}
       <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-forest via-forest/80 to-forest/10 lg:via-forest/40" />
