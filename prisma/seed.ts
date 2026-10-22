@@ -12,6 +12,8 @@ const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.
 
 const categories = [
   { slug: "tradicionais", name: "Marmitas tradicionais", description: "O sabor de comida caseira, com arroz, feijão e aquele tempero de casa." },
+  { slug: "risotos-massas", name: "Risotos & massas", description: "Risotos com arroz integral e massas caprichadas." },
+  { slug: "caldos-cremes", name: "Caldos e cremes", description: "Caldos e cremes leves e nutritivos." },
   { slug: "low-carb", name: "Marmitas low carb", description: "Menos carboidrato, mais legumes e proteína." },
   { slug: "proteina-extra", name: "Proteína extra", description: "Porções reforçadas de proteína para quem treina pesado." },
   { slug: "vegetarianas", name: "Marmitas vegetarianas", description: "Sem carne, com ovos, queijos e muitos vegetais." },
@@ -103,9 +105,28 @@ type Prod = {
   tags?: string[];
   ingredientsText: string;
   allergens?: string[];
+  image?: string;
 };
 
 const products: Prod[] = [
+  // Cardápio real (preço de referência = 500 g)
+  { slug: "carne-panela-pure-arroz-feijao", name: "Carne de panela suculenta com purê de batata, arroz e feijão", category: "tradicionais", basePrice: 3500, description: "Carne de panela suculenta com purê de batata, arroz e feijão.", ingredientsText: "Carne de panela, purê de batata, arroz e feijão." },
+  { slug: "sobrecoxa-molho-laranja", name: "Sobrecoxa assada ao molho de laranja com batatas, arroz e legumes", category: "tradicionais", basePrice: 3500, description: "Sobrecoxa assada ao molho de laranja com batatas, arroz e legumes.", ingredientsText: "Sobrecoxa de frango, molho de laranja, batatas, arroz e legumes." },
+  { slug: "strogonoff-carne-pure", name: "Strogonoff de carne com purê de batata e arroz", category: "tradicionais", basePrice: 3500, description: "Strogonoff de carne com purê de batata e arroz (integral ou branco — informe nas observações).", ingredientsText: "Carne, creme de leite, purê de batata e arroz integral ou branco.", allergens: ["Leite"] },
+  { slug: "parmegiana-carne-fit", name: "Parmegiana de carne fit com arroz e feijão", category: "tradicionais", basePrice: 3500, description: "Parmegiana de carne fit com arroz e feijão.", ingredientsText: "Carne, molho de tomate, queijo, arroz e feijão.", allergens: ["Leite"] },
+  { slug: "peixe-cogumelos-pure-mandioquinha", name: "Filé de peixe grelhado com mix de cogumelos e purê de mandioquinha", category: "tradicionais", basePrice: 4000, description: "Filé de peixe grelhado com mix de cogumelos e purê de mandioquinha.", ingredientsText: "Filé de peixe, mix de cogumelos e purê de mandioquinha.", allergens: ["Peixe"] },
+  { slug: "risoto-integral-frango-legumes", name: "Risoto integral de frango com legumes", category: "risotos-massas", basePrice: 3500, description: "Risoto de arroz integral com frango e legumes.", ingredientsText: "Arroz integral, frango e legumes." },
+  { slug: "risoto-integral-lula-vegetais", name: "Risoto integral de lula com vegetais", category: "risotos-massas", basePrice: 4500, featured: true, description: "Risoto de arroz integral com lula, vegetais e raspas de limão.", ingredientsText: "Arroz integral, lula, vegetais e limão.", allergens: ["Moluscos"], image: "/images/produtos/risoto-lula.jpg" },
+  { slug: "linguine-limone-camaroes", name: "Linguine ao limone com camarões", category: "risotos-massas", basePrice: 5500, description: "Linguine ao molho de limão-siciliano com camarões.", ingredientsText: "Linguine, camarões e limão.", allergens: ["Glúten", "Crustáceos"] },
+  { slug: "lasanha-berinjela-ricota", name: "Lasanha de berinjela com ricota", category: "vegetarianas", basePrice: 3500, tags: ["vegetariano"], description: "Lasanha de berinjela com ricota.", ingredientsText: "Berinjela e ricota.", allergens: ["Leite"] },
+  { slug: "risoto-integral-vegetais", name: "Risoto integral com vegetais", category: "vegetarianas", basePrice: 3500, tags: ["vegetariano"], description: "Risoto de arroz integral com vegetais.", ingredientsText: "Arroz integral e vegetais." },
+  { slug: "strogonoff-grao-de-bico", name: "Strogonoff de grão-de-bico com vegetais e toque de mascarpone", category: "vegetarianas", basePrice: 3500, tags: ["vegetariano"], description: "Strogonoff de grão-de-bico com vegetais e um toque de mascarpone.", ingredientsText: "Grão-de-bico, vegetais e mascarpone.", allergens: ["Leite"] },
+  { slug: "cogumelos-arroz-integral-mandioquinha", name: "Mix de cogumelos com arroz integral e purê de mandioquinha", category: "vegetarianas", basePrice: 3500, tags: ["vegetariano"], description: "Mix de cogumelos com arroz integral e purê de mandioquinha.", ingredientsText: "Mix de cogumelos, arroz integral e purê de mandioquinha." },
+  { slug: "caldo-verde-fit", name: "Caldo verde fit", category: "caldos-cremes", basePrice: 3000, description: "Caldo verde em versão leve.", ingredientsText: "Batata, couve e temperos." },
+  { slug: "creme-mandioquinha", name: "Creme de mandioquinha", category: "caldos-cremes", basePrice: 3000, description: "Creme de mandioquinha.", ingredientsText: "Mandioquinha e temperos." },
+  { slug: "caldo-legumes", name: "Caldo de legumes", category: "caldos-cremes", basePrice: 3000, description: "Caldo de legumes.", ingredientsText: "Legumes e temperos." },
+  { slug: "creme-batata-ricota", name: "Creme de batata com ricota", category: "caldos-cremes", basePrice: 3000, description: "Creme de batata com ricota.", ingredientsText: "Batata, ricota e temperos.", allergens: ["Leite"] },
+  // Demonstração
   { slug: "frango-arroz-feijao", name: "Frango grelhado com arroz e feijão", category: "tradicionais", basePrice: 2690, featured: true, tags: ["mais pedido"], description: "O clássico do dia a dia: frango grelhado no ponto, arroz soltinho, feijão carioca e salada.", ingredientsText: "Peito de frango, arroz branco, feijão carioca, alface, tomate, cebola, alho, azeite, sal e ervas." },
   { slug: "carne-panela-pure", name: "Carne de panela com purê", category: "tradicionais", basePrice: 2990, description: "Patinho cozido lentamente no molho, com purê de batata cremoso e cenoura.", ingredientsText: "Patinho, batata, leite, manteiga, cenoura, cebola, alho, tomate, sal e louro.", allergens: ["Leite"] },
   { slug: "escondidinho-carne-moida", name: "Escondidinho de carne moída", category: "tradicionais", basePrice: 2790, description: "Carne moída temperada coberta por purê de mandioca gratinado.", ingredientsText: "Patinho moído, mandioca, leite, manteiga, queijo muçarela, cebola, alho e cheiro-verde.", allergens: ["Leite"] },
@@ -210,6 +231,7 @@ async function main() {
       tags: p.tags ?? [],
       ingredientsText: p.ingredientsText,
       allergens: p.allergens ?? [],
+      ...(p.image && { image: p.image }),
       sortOrder: i,
     };
     await db.product.upsert({ where: { slug: p.slug }, update: data, create: data });

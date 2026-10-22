@@ -138,7 +138,7 @@ export function Hero({
           <motion.div style={reduce ? undefined : { rotateX: rx, rotateY: ry }} className="relative [transform-style:preserve-3d]">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[2.25rem] border-4 border-cream/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
               {heroImage ? (
-                <Image src={heroImage} alt="Marmitas coloridas da Marmifit Camburi" fill priority quality={90} sizes="(min-width: 1024px) 580px, 100vw" className="object-cover" />
+                <Image src={heroImage} alt="Prato da Marmifit Camburi" fill priority quality={90} sizes="(min-width: 1024px) 580px, 100vw" className="object-cover" />
               ) : (
                 <div className="size-full bg-leaf" />
               )}
