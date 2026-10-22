@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Minus, Plus, ShoppingBag } from "lucide-react";
+import { Check, Minus, Plus, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/components/store/cart-store";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,12 @@ export function ProductPurchase({
   const [sizeId, setSizeId] = useState(defaultSizeId);
   const [qty, setQty] = useState(1);
   const [notes, setNotes] = useState("");
+  const [added, setAdded] = useState(false);
+  useEffect(() => {
+    if (!added) return;
+    const id = window.setTimeout(() => setAdded(false), 1600);
+    return () => window.clearTimeout(id);
+  }, [added]);
   const size = sizes.find((s) => s.id === sizeId) ?? null;
   const unit = productPrice(product, product.hasSizes ? size : null);
 
@@ -51,6 +57,7 @@ export function ProductPurchase({
       quantity: qty,
       notes: notes.trim() || undefined,
     });
+    setAdded(true);
     toast.success(`${qty}x ${product.name} no carrinho`, {
       action: { label: "Ver carrinho", onClick: () => router.push("/carrinho") },
     });
@@ -70,7 +77,7 @@ export function ProductPurchase({
                   key={s.id}
                   className={cn(
                     "relative cursor-pointer rounded-xl border-2 bg-white p-3 text-center transition",
-                    selected ? "border-leaf shadow-soft" : "border-cream-300 hover:border-leaf/50",
+                    selected ? "border-leaf-700 shadow-soft" : "border-cream-300 hover:border-leaf/50",
                   )}
                 >
                   <input type="radio" name="size" value={s.id} checked={selected} onChange={() => setSizeId(s.id)} className="sr-only" />
@@ -111,9 +118,14 @@ export function ProductPurchase({
             <Plus className="size-4" />
           </button>
         </div>
-        <Button size="xl" className="flex-1" disabled={!!blockedReason || (product.hasSizes && !size)} onClick={() => addToCart(false)}>
-          <ShoppingBag className="size-5" aria-hidden />
-          Adicionar · {formatBRL(unit * qty)}
+        <Button
+          size="xl"
+          className={cn("flex-1 transition-colors duration-300", added && "bg-leaf-700 hover:bg-leaf-700")}
+          disabled={!!blockedReason || (product.hasSizes && !size)}
+          onClick={() => addToCart(false)}
+        >
+          {added ? <Check className="size-5" strokeWidth={3} aria-hidden /> : <ShoppingBag className="size-5" aria-hidden />}
+          {added ? "Adicionado ao carrinho" : `Adicionar · ${formatBRL(unit * qty)}`}
         </Button>
       </div>
       {notice && !blockedReason && <p className="rounded-xl bg-tangerine-100 p-3 text-sm font-medium text-forest">{notice}</p>}

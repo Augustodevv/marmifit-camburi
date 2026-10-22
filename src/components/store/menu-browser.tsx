@@ -56,7 +56,8 @@ export function MenuBrowser({
 
   return (
     <div className="container-page py-10">
-      <div className="sticky top-16 z-30 -mx-4 border-b border-cream-300/70 bg-cream/90 px-4 py-3 backdrop-blur-md sm:mx-0 sm:rounded-2xl sm:border sm:px-4 lg:top-[80px]">
+      {/* fixa só a partir do tablet: no celular a barra ocuparia metade da tela */}
+      <div className="-mx-4 border-b border-cream-300/70 bg-cream/90 px-4 py-3 backdrop-blur-md sm:mx-0 sm:rounded-card sm:border sm:px-4 md:sticky md:top-20 md:z-30 lg:top-[84px]">
         <div role="tablist" aria-label="Categorias" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
           {tabs.map((c) => (
             <button
@@ -76,7 +77,7 @@ export function MenuBrowser({
             </button>
           ))}
         </div>
-        <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center">
+        <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-center">
           <label className="relative flex-1">
             <span className="sr-only">Buscar no cardápio</span>
             <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
@@ -107,7 +108,7 @@ export function MenuBrowser({
                 {f.label}
               </button>
             ))}
-            <label className="ml-auto md:ml-2">
+            <label className="ml-auto lg:ml-2">
               <span className="sr-only">Ordenar</span>
               <select
                 value={sort}
@@ -130,7 +131,7 @@ export function MenuBrowser({
       </p>
 
       {visible.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-cream-300 bg-white p-12 text-center">
+        <div className="mt-8 rounded-card border border-dashed border-cream-300 bg-white p-12 text-center">
           <p className="font-display text-2xl text-forest">Nada por aqui com esses filtros.</p>
           <p className="mt-2 text-muted-foreground">Limpe os filtros ou monte a sua do jeito que quiser.</p>
           <div className="mt-6 flex justify-center gap-3">

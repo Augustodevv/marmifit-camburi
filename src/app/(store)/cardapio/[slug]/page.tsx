@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/store/section";
 import { db } from "@/lib/db";
 import { formatBRL, productPrice } from "@/lib/pricing";
 import { todayDailyIndex, WEEKDAYS } from "@/lib/hours";
+import { BADGE_LABEL, productBadges } from "@/lib/badges";
 import { getProductBySlug, listProducts } from "@/server/catalog";
 import { getListingContext } from "@/server/viewer";
 
@@ -87,7 +88,16 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
           <Link href={`/cardapio?categoria=${product.category.slug}`} className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">
             {product.category.name}
           </Link>
-          <h1 className="mt-2 text-4xl font-semibold text-forest sm:text-5xl">{product.name}</h1>
+          <h1 className="mt-2 text-4xl font-semibold text-balance text-forest sm:text-5xl">{product.name}</h1>
+          {productBadges(product).length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2" aria-label="Características">
+              {productBadges(product).map((b) => (
+                <li key={b} className="rounded-full bg-leaf-100 px-3 py-1 text-xs font-bold text-leaf-700">
+                  {BADGE_LABEL[b]}
+                </li>
+              ))}
+            </ul>
+          )}
           {product.rating.count > 0 && (
             <p className="mt-3 flex items-center gap-1.5 text-sm">
               <Star className="size-4 fill-tangerine text-tangerine" aria-hidden />
@@ -96,8 +106,11 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
             </p>
           )}
           <p className="mt-4 text-lg leading-relaxed text-ink/75">{product.description}</p>
-          <p className="mt-4 flex items-baseline gap-3">
-            <span className="font-display text-3xl font-semibold text-forest">{product.hasSizes ? `a partir de ${formatBRL(productPrice(product, ctx.sizes[0]))}` : formatBRL(product.basePrice)}</span>
+          <p className="mt-5 flex items-end gap-3">
+            <span className="font-display text-4xl font-semibold text-forest">
+              {product.hasSizes && <span className="block font-sans text-sm font-semibold text-muted-foreground">a partir de</span>}
+              {formatBRL(product.hasSizes ? productPrice(product, ctx.sizes[0]) : product.basePrice)}
+            </span>
             {product.compareAtPrice && product.compareAtPrice > product.basePrice && (
               <s className="text-muted-foreground">{formatBRL(product.compareAtPrice)}</s>
             )}
@@ -145,9 +158,9 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
           <div className="space-y-4">
             {product.reviews.length === 0 && <p className="text-muted-foreground">Ainda sem avaliações. Peça e seja o primeiro!</p>}
             {product.reviews.map((r) => (
-              <article key={r.id} className="rounded-2xl border border-cream-300 bg-white p-5">
+              <article key={r.id} className="rounded-card border border-cream-300 bg-white p-5">
                 <div className="flex items-center justify-between">
-                  <div className="flex gap-0.5" aria-label={`${r.rating} de 5`}>
+                  <div className="flex gap-0.5" role="img" aria-label={`${r.rating} de 5 estrelas`}>
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} className={`size-4 ${i < r.rating ? "fill-tangerine text-tangerine" : "text-cream-300"}`} aria-hidden />
                     ))}
