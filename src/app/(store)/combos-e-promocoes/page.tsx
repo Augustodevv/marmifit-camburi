@@ -42,7 +42,7 @@ export default async function CombosPage() {
             <h2 id="cupons" className="sr-only">Cupons</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {availableCoupons.map((c) => (
-                <div key={c.id} className="relative flex items-center gap-4 overflow-hidden rounded-2xl border-2 border-dashed border-tangerine bg-white p-5">
+                <div key={c.id} className="relative flex items-center gap-4 overflow-hidden rounded-card border-2 border-dashed border-tangerine bg-white p-5">
                   <span className="flex size-12 items-center justify-center rounded-xl bg-tangerine-100 text-[#a35a12]">
                     <Ticket className="size-6" aria-hidden />
                   </span>

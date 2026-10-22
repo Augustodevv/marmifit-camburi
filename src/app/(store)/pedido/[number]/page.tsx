@@ -55,7 +55,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
     <div className="container-page max-w-4xl py-10">
       <AutoRefresh seconds={20} enabled={!final} />
       {sp.novo === "1" && (
-        <div className="mb-6 rounded-2xl bg-leaf-700 p-5 text-white shadow-lift">
+        <div className="mb-6 rounded-card bg-leaf-700 p-5 text-white shadow-lift">
           <p className="font-display text-2xl font-semibold">Pedido recebido! 🎉</p>
           <p className="mt-1 text-sm text-white/85">Guarde este link para acompanhar. Avisamos aqui a cada mudança de status.</p>
         </div>
@@ -68,7 +68,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
       </p>
 
       {status === "PENDING_PAYMENT" && (
-        <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-tangerine bg-tangerine-100 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 rounded-card border border-tangerine bg-tangerine-100 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-semibold text-forest">Aguardando confirmação do pagamento ({PAYMENT_METHOD_LABEL[order.paymentMethod]})</p>
             <p className="text-sm text-forest/75">Assim que o Mercado Pago aprovar, seu pedido entra em preparo automaticamente.</p>
@@ -78,7 +78,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
       )}
 
       {status === "CANCELED" ? (
-        <div className="mt-8 flex items-center gap-3 rounded-2xl bg-destructive/10 p-5 text-destructive">
+        <div className="mt-8 flex items-center gap-3 rounded-card bg-destructive/10 p-5 text-destructive">
           <XCircle className="size-6" aria-hidden /> Este pedido foi cancelado. Em caso de dúvida, fale com a gente.
         </div>
       ) : (
@@ -106,7 +106,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
       )}
 
       <div className="mt-12 grid gap-6 md:grid-cols-[1.3fr_1fr]">
-        <section className="rounded-3xl border border-cream-300 bg-white p-6 shadow-soft">
+        <section className="rounded-panel border border-cream-300 bg-white p-6 shadow-soft">
           <h2 className="text-xl font-semibold text-forest">Itens</h2>
           <ul className="mt-4 divide-y divide-cream-300/70 text-sm">
             {order.items.map((i) => (
@@ -131,7 +131,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
         </section>
 
         <section className="space-y-4">
-          <div className="rounded-3xl border border-cream-300 bg-white p-6 shadow-soft text-sm">
+          <div className="rounded-panel border border-cream-300 bg-white p-6 shadow-soft text-sm">
             <h2 className="text-xl font-semibold text-forest">Detalhes</h2>
             <p className="mt-3 flex gap-2">
               {isPickup ? <Store className="size-4 shrink-0 text-leaf-700" aria-hidden /> : <MapPin className="size-4 shrink-0 text-leaf-700" aria-hidden />}
@@ -155,7 +155,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
               <MessageCircle className="size-5" aria-hidden /> Falar sobre o pedido no WhatsApp
             </a>
           )}
-          <ol className="space-y-2 rounded-3xl border border-cream-300 bg-white p-6 text-xs shadow-soft">
+          <ol className="space-y-2 rounded-panel border border-cream-300 bg-white p-6 text-xs shadow-soft">
             <li className="text-sm font-semibold text-forest">Histórico</li>
             {order.events.map((e) => (
               <li key={e.id} className="flex justify-between gap-2">

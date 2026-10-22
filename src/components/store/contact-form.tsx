@@ -11,7 +11,7 @@ export function ContactForm() {
   const [state, action, pending] = useActionState<ActionState, FormData>(sendContact, null);
   if (state?.ok) {
     return (
-      <div className="flex flex-col items-center rounded-3xl border border-cream-300 bg-white p-10 text-center shadow-soft">
+      <div className="flex flex-col items-center rounded-panel border border-cream-300 bg-white p-10 text-center shadow-soft">
         <CheckCircle2 className="size-12 text-leaf-700" aria-hidden />
         <p className="mt-4 font-display text-2xl text-forest">{state.message}</p>
       </div>
@@ -19,7 +19,7 @@ export function ContactForm() {
   }
   const err = (k: string) => state?.fieldErrors?.[k]?.[0];
   return (
-    <form action={action} className="space-y-4 rounded-3xl border border-cream-300 bg-white p-6 shadow-soft" noValidate>
+    <form action={action} className="space-y-4 rounded-panel border border-cream-300 bg-white p-6 shadow-soft" noValidate>
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-semibold text-forest">Nome<input name="name" required className={`${cls} h-11`} />{err("name") && <span className="text-xs text-destructive">{err("name")}</span>}</label>

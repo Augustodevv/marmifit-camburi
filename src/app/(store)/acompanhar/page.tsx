@@ -36,7 +36,7 @@ export default async function TrackPage({ searchParams }: PageProps<"/acompanhar
     <>
       <PageHeader eyebrow="Acompanhar" title="Onde está meu pedido?" description="Digite o número do pedido (ex.: MF00012) e o telefone informado na compra." />
       <div className="container-page max-w-lg py-12">
-        <form action={findOrder} className="space-y-4 rounded-3xl border border-cream-300 bg-white p-6 shadow-soft">
+        <form action={findOrder} className="space-y-4 rounded-panel border border-cream-300 bg-white p-6 shadow-soft">
           <div>
             <label htmlFor="number" className="text-sm font-semibold text-forest">Número do pedido</label>
             <input id="number" name="number" required placeholder="MF00012" className="mt-1.5 h-11 w-full rounded-xl border border-input px-3 uppercase outline-none focus:border-leaf" />

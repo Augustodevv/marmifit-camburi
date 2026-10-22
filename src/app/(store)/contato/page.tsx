@@ -26,7 +26,7 @@ export default async function ContactPage() {
               <MessageCircle className="size-5" aria-hidden /> Chamar no WhatsApp
             </a>
           )}
-          <ul className="space-y-3 rounded-3xl border border-cream-300 bg-white p-6 text-sm text-forest shadow-soft">
+          <ul className="space-y-3 rounded-panel border border-cream-300 bg-white p-6 text-sm text-forest shadow-soft">
             <li className="flex gap-3"><MapPin className="size-5 shrink-0 text-leaf-700" aria-hidden /> {s.pickupAddress}</li>
             {(s.phone || s.whatsappNumber) && (
               <li className="flex gap-3">

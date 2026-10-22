@@ -67,7 +67,7 @@ export function SearchDialog() {
       >
         <Search className="size-5" />
       </DialogTrigger>
-      <DialogContent className="top-[12%] translate-y-0 gap-0 overflow-hidden rounded-2xl bg-white p-0 sm:max-w-xl" showCloseButton={false}>
+      <DialogContent className="top-[12%] translate-y-0 gap-0 overflow-hidden rounded-card bg-white p-0 sm:max-w-xl" showCloseButton={false}>
         <DialogTitle className="sr-only">Buscar no cardápio</DialogTitle>
         <div className="flex items-center gap-3 border-b border-cream-300 px-4">
           <Search className="size-5 text-leaf-700" aria-hidden />

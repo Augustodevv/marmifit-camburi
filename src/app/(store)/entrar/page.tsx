@@ -13,7 +13,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/entrar">) 
   if (session && session.role !== "CUSTOMER") redirect(next ?? "/admin");
   return (
     <div className="container-page grid min-h-[70vh] place-items-center py-12">
-      <div className="w-full max-w-md rounded-3xl border border-cream-300 bg-white p-8 shadow-lift">
+      <div className="w-full max-w-md rounded-panel border border-cream-300 bg-white p-8 shadow-lift">
         <h1 className="text-3xl font-semibold text-forest">Acesso da equipe</h1>
         <p className="mt-1 text-sm text-muted-foreground">Área restrita ao painel administrativo. Para pedir, não é preciso conta.</p>
         <div className="mt-6">
