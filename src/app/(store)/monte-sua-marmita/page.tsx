@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Configurator } from "@/components/store/configurator";
 import { PageHeader } from "@/components/store/section";
+import { db } from "@/lib/db";
+import { resolveImage } from "@/lib/media";
 import { getCatalog } from "@/server/catalog";
 
 export const metadata: Metadata = {
@@ -10,7 +12,14 @@ export const metadata: Metadata = {
 };
 
 export default async function BuildPage() {
-  const catalog = await getCatalog();
+  const [catalog, ingredientMedia] = await Promise.all([getCatalog(), db.ingredient.findMany({ select: { id: true, slug: true, image: true } })]);
+  // fotos dos ingredientes: campo do painel ou public/images/ingredientes/<slug>.webp
+  const images = Object.fromEntries(
+    ingredientMedia.flatMap((i) => {
+      const { src, blur } = resolveImage(i.image, "ingredientes", i.slug);
+      return src ? [[i.id, { src, blur }]] : [];
+    }),
+  );
   if (!catalog.sizes.some((s) => s.active) || !catalog.styles.some((s) => s.active)) {
     return (
       <PageHeader title="Configurador em manutenção" description="Estamos atualizando o cardápio. Volte em instantes ou veja os pratos prontos." />
@@ -23,7 +32,7 @@ export default async function BuildPage() {
         title="Monte sua marmita"
         description="Você escolhe cada detalhe. A gente calcula o preço na hora e prepara do jeitinho que você pediu."
       />
-      <Configurator catalog={catalog} />
+      <Configurator catalog={catalog} images={images} />
     </>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -20,6 +21,7 @@ import {
   Wheat,
   Salad,
   NotebookPen,
+  Sprout,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/components/store/cart-store";
@@ -65,9 +67,14 @@ const GROUP_TONE: Record<IngredientGroup, string> = {
 };
 
 const GROUP_ICON: Record<IngredientGroup, typeof Beef> = { PROTEIN: Beef, BASE: Wheat, SIDE: Leaf, ADDON: CookingPot };
+/** Ícone de cada estilo (por slug), com fallback pelas restrições. */
+const STYLE_ICON: Record<string, typeof Beef> = { tradicional: CookingPot, "low-carb": Salad, vegetariano: Leaf, vegano: Sprout, personalizado: Sparkles };
+
+type IngredientImages = Record<string, { src: string; blur: string }>;
+
 const SUGGESTED_SIDES = ["feijao-carioca", "salada-verde", "brocolis", "abobrinha", "feijao-preto", "cenoura"];
 
-export function Configurator({ catalog }: { catalog: Catalog }) {
+export function Configurator({ catalog, images = {} }: { catalog: Catalog; images?: IngredientImages }) {
   const router = useRouter();
   const add = useCart((s) => s.add);
   const styles = catalog.styles.filter((s) => s.active);
@@ -91,6 +98,14 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
   const style = styles.find((s) => s.id === config.styleId);
   const byId = useMemo(() => new Map(catalog.ingredients.map((i) => [i.id, i])), [catalog]);
   const current = STEPS[step];
+  const progress = Math.round(((step + 1) / STEPS.length) * 100);
+  const stepsRef = useRef<HTMLOListElement>(null);
+
+  // no celular, mantém a etapa atual visível na fila de etapas
+  useEffect(() => {
+    const el = stepsRef.current?.querySelector<HTMLElement>('[aria-current="step"]');
+    el?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }, [step]);
 
   /** Remove escolhas que deixaram de ser válidas (estilo/tamanho/regras). */
   function sanitize(next: CustomConfig): CustomConfig {
@@ -212,7 +227,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
       <div>
         {/* Indicador de etapas */}
         <nav aria-label="Etapas" className="-mx-4 overflow-x-auto px-4">
-          <ol className="flex min-w-max gap-2">
+          <ol ref={stepsRef} className="flex min-w-max gap-2">
             {STEPS.map((s, i) => {
               const done = i < step;
               const isCurrent = i === step;
@@ -225,7 +240,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                     className={cn(
                       "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                       isCurrent && "border-forest bg-forest text-cream",
-                      done && "border-leaf bg-leaf-100 text-leaf-700",
+                      done && "border-leaf-700/40 bg-leaf-100 text-leaf-700",
                       !isCurrent && !done && "border-cream-300 bg-white text-muted-foreground hover:text-forest",
                     )}
                   >
@@ -238,8 +253,18 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
               );
             })}
           </ol>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-cream-300/60">
-            <motion.div className="h-full rounded-full bg-leaf" animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }} transition={{ type: "spring", bounce: 0, duration: 0.5 }} />
+          <div className="mt-4 flex items-center gap-3">
+            <div
+              className="h-2 flex-1 overflow-hidden rounded-full bg-cream-300/60"
+              role="progressbar"
+              aria-label="Progresso da montagem"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+            >
+              <motion.div className="h-full rounded-full bg-gradient-to-r from-leaf to-tangerine" animate={{ width: `${progress}%` }} transition={{ type: "spring", bounce: 0, duration: 0.5 }} />
+            </div>
+            <span className="text-xs font-bold tabular-nums text-forest">{progress}%</span>
           </div>
         </nav>
 
@@ -280,7 +305,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                       subtitle={
                         s.requireVegan ? "Somente vegetais" : s.requireVegetarian ? "Sem carnes" : s.requireLowCarb ? "Menos carboidrato" : "Sem restrições"
                       }
-                      icon={s.requireVegan || s.requireVegetarian ? Leaf : s.requireLowCarb ? Salad : Sparkles}
+                      icon={STYLE_ICON[s.slug] ?? (s.requireVegan ? Sprout : s.requireVegetarian ? Leaf : s.requireLowCarb ? Salad : CookingPot)}
                     />
                   ))}
                 </div>
@@ -307,7 +332,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                   current.id === g && (
                     <div key={g}>
                       {suggestions.length > 0 && (
-                        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl bg-white p-3 text-sm shadow-soft">
+                        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-card bg-white p-3 text-sm shadow-soft">
                           <Lightbulb className="size-4 text-tangerine" aria-hidden />
                           <span className="font-semibold text-forest">Combina bem:</span>
                           {suggestions.map((s) => (
@@ -325,6 +350,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                             <IngredientCard
                               key={ing.id}
                               ing={ing}
+                              image={images[ing.id]}
                               selected={selected}
                               disabledReason={reason}
                               onClick={() => toggle(ing)}
@@ -395,7 +421,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
 
       {/* Resumo fixo no desktop */}
       <aside className="hidden lg:block">
-        <div className="sticky top-24 rounded-3xl border border-cream-300 bg-white p-6 shadow-lift">
+        <div className="sticky top-24 rounded-panel border border-cream-300 bg-white p-6 shadow-lift">
           {summary}
           <Button size="xl" variant="accent" className="mt-6 w-full" onClick={addToCart} disabled={!quote.ok}>
             <ShoppingBag className="size-5" aria-hidden /> Adicionar · {formatBRL(quote.unitPrice)}
@@ -454,8 +480,8 @@ function OptionCard({
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        "relative flex items-start gap-4 rounded-2xl border-2 bg-white p-5 text-left transition",
-        selected ? "border-leaf shadow-lift" : "border-cream-300 hover:-translate-y-0.5 hover:border-leaf/50 hover:shadow-soft",
+        "relative flex items-start gap-4 rounded-card border-2 bg-white p-5 text-left transition",
+        selected ? "border-leaf-700 shadow-lift" : "border-cream-300 hover:-translate-y-0.5 hover:border-leaf/50 hover:shadow-soft",
       )}
     >
       <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-2xl transition", selected ? "bg-leaf-700 text-white" : "bg-leaf-100 text-leaf-700")}>
@@ -491,12 +517,14 @@ function SelectedMark({ on }: { on: boolean }) {
 
 function IngredientCard({
   ing,
+  image,
   selected,
   disabledReason,
   onClick,
   extra,
 }: {
   ing: PricingIngredient;
+  image?: { src: string; blur: string };
   selected: boolean;
   disabledReason: string | null;
   onClick: () => void;
@@ -505,7 +533,7 @@ function IngredientCard({
   const Icon = GROUP_ICON[ing.group];
   const disabled = !!disabledReason;
   return (
-    <div className={cn("relative rounded-2xl border-2 bg-white transition", selected ? "border-leaf shadow-lift" : "border-cream-300", disabled && "opacity-60")}>
+    <div className={cn("relative rounded-card border-2 bg-white transition", selected ? "border-leaf-700 shadow-lift" : "border-cream-300 hover:border-leaf/50", disabled && "opacity-60")}>
       <motion.button
         type="button"
         whileTap={disabled ? undefined : { scale: 0.97 }}
@@ -518,9 +546,13 @@ function IngredientCard({
         <motion.span
           animate={selected ? { rotate: [0, -12, 10, 0], scale: [1, 1.15, 1] } : {}}
           transition={{ duration: 0.45 }}
-          className={cn("flex size-12 shrink-0 items-center justify-center rounded-xl", GROUP_TONE[ing.group])}
+          className={cn("relative flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl", GROUP_TONE[ing.group])}
         >
-          <Icon className="size-6" aria-hidden />
+          {image ? (
+            <Image src={image.src} alt="" fill sizes="56px" placeholder="blur" blurDataURL={image.blur} className="object-cover" />
+          ) : (
+            <Icon className="size-6" aria-hidden />
+          )}
         </motion.span>
         <span className="min-w-0 flex-1">
           <span className="block font-semibold leading-tight text-forest">{ing.name}</span>
@@ -572,11 +604,11 @@ function Summary({
   quote: ReturnType<typeof quoteCustom>;
   onRemove: (ing: PricingIngredient) => void;
 }) {
-  const groups: [string, string[]][] = [
-    ["Proteína", config.proteinIds],
-    ["Base", config.baseIds],
-    ["Acompanhamentos", config.sideIds],
-    ["Adicionais", config.addonIds],
+  const groups: [string, string[], IngredientGroup][] = [
+    ["Proteína", config.proteinIds, "PROTEIN"],
+    ["Base", config.baseIds, "BASE"],
+    ["Acompanhamentos", config.sideIds, "SIDE"],
+    ["Adicionais", config.addonIds, "ADDON"],
   ];
   return (
     <div>
@@ -592,14 +624,21 @@ function Summary({
           <dd className="font-semibold text-forest">{sizeLabel}</dd>
         </div>
       </dl>
-      <div className="mt-4 space-y-3">
-        {groups.map(([label, ids]) => (
-          <div key={label}>
-            <p className="text-xs font-semibold text-muted-foreground">{label}</p>
+      {/* bandeja: um compartimento por grupo, colorido quando preenchido */}
+      <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-forest p-2 shadow-inner">
+        {groups.map(([label, ids, g]) => (
+          <div
+            key={label}
+            className={cn(
+              "min-h-24 rounded-xl p-2.5 transition-colors duration-300",
+              ids.length ? GROUP_TONE[g] : "border border-dashed border-cream/25 text-cream/70",
+            )}
+          >
+            <p className="text-[11px] font-bold uppercase tracking-wide">{label}</p>
             {ids.length === 0 ? (
-              <p className="text-sm text-muted-foreground/70">—</p>
+              <p className="mt-1 text-xs">Vazio</p>
             ) : (
-              <ul className="mt-1 flex flex-wrap gap-1.5">
+              <ul className="mt-1.5 flex flex-wrap gap-1">
                 <AnimatePresence>
                   {ids.map((id) => {
                     const ing = byId.get(id);
@@ -609,7 +648,7 @@ function Summary({
                         <button
                           type="button"
                           onClick={() => onRemove(ing)}
-                          className="group flex items-center gap-1 rounded-full bg-leaf-100 px-2.5 py-1 text-xs font-semibold text-forest hover:bg-destructive/10 hover:text-destructive"
+                          className="group flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-semibold text-forest shadow-soft hover:bg-white hover:text-destructive"
                           aria-label={`Remover ${ing.name}`}
                         >
                           {ing.name}
