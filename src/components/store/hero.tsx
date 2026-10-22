@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown, ArrowRight, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Sparkles, Star } from "lucide-react";
 import { HeroVideo } from "@/components/store/hero-video";
 import { blurFor, localHeroVideo } from "@/lib/media";
 import { buttonVariants } from "@/components/ui/button";
@@ -31,7 +31,7 @@ export function Hero({
       <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-forest via-forest/80 to-forest/10 lg:via-forest/40" />
       <div aria-hidden className="absolute inset-0 -z-10 hidden bg-gradient-to-r from-forest/95 via-forest/60 to-transparent lg:block" />
 
-      <div className="container-page relative flex flex-col justify-end pb-10 pt-24 sm:pb-14 lg:justify-center lg:pb-24">
+      <div className="container-page relative flex flex-col justify-end pb-16 pt-24 sm:pb-20 lg:justify-center lg:pb-28">
         <div className="max-w-2xl animate-rise">
           <p className="inline-flex items-center gap-2 rounded-full border border-cream/25 bg-forest/50 px-3.5 py-1.5 text-xs font-semibold backdrop-blur">
             <span className="relative flex size-2.5">
@@ -64,7 +64,7 @@ export function Hero({
           </div>
         </div>
 
-        <div className="absolute bottom-24 right-8 hidden rounded-card border border-cream/15 bg-forest/60 p-5 shadow-float backdrop-blur-md xl:block">
+        <div className="absolute bottom-28 right-8 hidden rounded-card border border-cream/15 bg-forest/60 p-5 shadow-float backdrop-blur-md xl:block">
           <p className="text-xs font-semibold text-cream/80">Monte a sua a partir de</p>
           <p className="font-display text-4xl font-semibold">{fromPrice}</p>
           <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-tangerine">
@@ -72,12 +72,6 @@ export function Hero({
           </p>
         </div>
 
-        <a
-          href="#beneficios"
-          className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold text-cream/80 hover:text-cream lg:flex"
-        >
-          Role para ver mais <ArrowDown className="size-4 motion-safe:animate-bounce" aria-hidden />
-        </a>
       </div>
     </section>
   );

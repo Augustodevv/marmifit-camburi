@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
+  id,
   eyebrow,
   title,
   description,
@@ -10,6 +11,8 @@ export function SectionHeading({
   hrefLabel = "Ver todos",
   className,
 }: {
+  /** id do <h2> (para aria-labelledby da seção) */
+  id?: string;
   eyebrow?: string;
   title: string;
   description?: string;
@@ -21,7 +24,7 @@ export function SectionHeading({
     <div className={cn("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
       <div className="max-w-2xl">
         {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">{eyebrow}</p>}
-        <h2 className="mt-2 text-3xl font-semibold text-forest sm:text-4xl">{title}</h2>
+        <h2 id={id} className="mt-2 text-3xl font-semibold text-balance text-forest sm:text-4xl lg:text-5xl">{title}</h2>
         {description && <p className="mt-3 text-muted-foreground">{description}</p>}
       </div>
       {href && (
