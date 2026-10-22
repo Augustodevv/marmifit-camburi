@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHeader } from "@/components/store/section";
 import { ContactForm } from "@/components/store/contact-form";
@@ -7,11 +8,11 @@ import { formatPhone } from "@/lib/format";
 import { whatsappLink } from "@/lib/whatsapp";
 import { getSettings } from "@/server/catalog";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contato",
-  description: "Fale com a Marmifit Camburi: WhatsApp, e-mail e formulário de contato.",
-  alternates: { canonical: "/contato" },
-};
+  description: "Fale com a Marmifit Camburi pelo WhatsApp, telefone, e-mail ou formulário. Cozinha em Camburi, São Sebastião (SP).",
+  path: "/contato",
+});
 
 export default async function ContactPage() {
   const s = await getSettings();

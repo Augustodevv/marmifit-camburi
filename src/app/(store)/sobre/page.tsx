@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { HeartHandshake, Leaf, Sprout, Timer } from "lucide-react";
 import { PageHeader } from "@/components/store/section";
@@ -7,11 +8,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { blurFor, conventionalImage } from "@/lib/media";
 import { getSettings } from "@/server/catalog";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Sobre nós",
-  description: "A Marmifit Camburi prepara marmitas frescas todos os dias em Camburi, São Sebastião - SP.",
-  alternates: { canonical: "/sobre" },
-};
+  description: "A Marmifit Camburi prepara marmitas caseiras todos os dias em Camburi, São Sebastião, no Litoral Norte de SP.",
+  path: "/sobre",
+});
 
 const VALUES = [
   { icon: Sprout, title: "Ingredientes frescos", text: "Compramos de fornecedores locais e cozinhamos no mesmo dia da entrega." },

@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 import type { Catalog } from "@/lib/pricing";
@@ -93,7 +94,8 @@ function withRating<T extends { reviews: { rating: number }[] }>(p: T) {
 
 export type ProductCardData = Awaited<ReturnType<typeof listProducts>>[number];
 
-export async function getProductBySlug(slug: string) {
+/** Memorizado por requisição: generateMetadata e a página do prato usam a mesma consulta. */
+export const getProductBySlug = cache(async (slug: string) => {
   const product = await db.product.findUnique({
     where: { slug },
     include: {
@@ -108,7 +110,7 @@ export async function getProductBySlug(slug: string) {
   });
   if (!product || !product.active) return null;
   return withMedia(withRating(product), "produtos");
-}
+});
 
 export async function listCategories() {
   const categories = await db.category.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" } });

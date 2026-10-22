@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/store/section";
 import { MenuBrowser } from "@/components/store/menu-browser";
 import { listCategories, listProducts } from "@/server/catalog";
 import { getListingContext } from "@/server/viewer";
 
-export const metadata: Metadata = {
-  title: "Cardápio completo",
-  description: "Marmitas tradicionais, low carb, fitness, executivas, vegetarianas, veganas e combos. Filtre por categoria e restrição alimentar.",
-  alternates: { canonical: "/cardapio" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Cardápio de marmitas",
+  description: "Marmitas tradicionais, low carb, fitness, executivas, vegetarianas, veganas e combos da Marmifit Camburi. Filtre por categoria e restrição alimentar.",
+  path: "/cardapio",
+});
 
 export default async function MenuPage({ searchParams }: PageProps<"/cardapio">) {
   const sp = await searchParams;

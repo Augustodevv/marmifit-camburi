@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Configurator } from "@/components/store/configurator";
 import { PageHeader } from "@/components/store/section";
 import { db } from "@/lib/db";
 import { resolveImage } from "@/lib/media";
 import { getCatalog } from "@/server/catalog";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Monte sua marmita",
-  description: "Escolha estilo, tamanho, proteína, base, acompanhamentos e adicionais. O preço é calculado na hora.",
-  alternates: { canonical: "/monte-sua-marmita" },
-};
+  description: "Escolha estilo, tamanho, proteína, base, acompanhamentos e adicionais. O preço é calculado na hora, com entrega em Camburi e região.",
+  path: "/monte-sua-marmita",
+});
 
 export default async function BuildPage() {
   const [catalog, ingredientMedia] = await Promise.all([getCatalog(), db.ingredient.findMany({ select: { id: true, slug: true, image: true } })]);

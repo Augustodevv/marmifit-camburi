@@ -13,6 +13,7 @@ import { todayDailyIndex, WEEKDAYS } from "@/lib/hours";
 import { blurFor, conventionalImage } from "@/lib/media";
 import { shortCategoryName } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { SITE_NAME } from "@/lib/seo";
 import { getSettings, listCategories, listProducts } from "@/server/catalog";
 import { isMercadoPagoConfigured } from "@/server/mercadopago";
 import { getListingContext } from "@/server/viewer";
@@ -96,8 +97,42 @@ export default async function HomePage() {
     { icon: Wallet, title: "Pix, cartão ou dinheiro", text: "Sem cadastro para pedir" },
   ];
 
+  // dados estruturados do restaurante: tudo vem do painel (Entrega e horários) e do cardápio
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  const prices = products.map((p) => productPrice(p, p.hasSizes ? ctx.defaultSize : null));
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const instagram = settings.instagram?.replace(/^@/, "");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": `${siteUrl}/#restaurante`,
+    name: settings.storeName || SITE_NAME,
+    alternateName: "Marmitas Camburi",
+    url: siteUrl,
+    image: `${siteUrl}/opengraph-image`,
+    ...(settings.phone || settings.whatsappNumber ? { telephone: `+55${(settings.phone || settings.whatsappNumber)!.replace(/\D/g, "").replace(/^55/, "")}` } : {}),
+    ...(settings.email ? { email: settings.email } : {}),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: settings.pickupAddress,
+      addressLocality: "São Sebastião",
+      addressRegion: "SP",
+      addressCountry: "BR",
+    },
+    servesCuisine: ["Brasileira", "Caseira", "Fitness", "Vegetariana", "Vegana"],
+    ...(prices.length ? { priceRange: `${formatBRL(Math.min(...prices))} – ${formatBRL(Math.max(...prices))}` } : {}),
+    hasMenu: `${siteUrl}/cardapio`,
+    acceptsReservations: false,
+    openingHoursSpecification: settings.hours
+      .filter((h) => h.enabled)
+      .map((h) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: days[h.day], opens: h.open, closes: h.close === "24:00" ? "23:59" : h.close })),
+    areaServed: zones.length ? zones.map((z) => ({ "@type": "Place", name: `${z.district}, São Sebastião - SP` })) : undefined,
+    ...(instagram ? { sameAs: [`https://www.instagram.com/${instagram}`] } : {}),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Hero heroImage={settings.heroImage} heroVideo={settings.heroVideo} fromPrice={minSize ? formatBRL(minSize.customBasePrice) : "—"} isOpen={settings.acceptingOrders} />
 
       {/* benefícios */}

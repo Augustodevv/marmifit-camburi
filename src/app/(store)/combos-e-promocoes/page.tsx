@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Ticket } from "lucide-react";
 import { PageHeader, SectionHeading } from "@/components/store/section";
 import { ProductCard } from "@/components/store/product-card";
@@ -7,11 +8,11 @@ import { formatBRL } from "@/lib/pricing";
 import { listProducts } from "@/server/catalog";
 import { getListingContext } from "@/server/viewer";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Combos e promoções",
-  description: "Combos familiares, kits semanais e cupons de desconto da Marmifit Camburi.",
-  alternates: { canonical: "/combos-e-promocoes" },
-};
+  description: "Combos familiares, kits para a semana e cupons de desconto da Marmifit Camburi, em São Sebastião (SP).",
+  path: "/combos-e-promocoes",
+});
 
 export default async function CombosPage() {
   const now = new Date();

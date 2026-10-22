@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { clientIp, rateLimit } from "@/lib/security";
 
-export const metadata: Metadata = { title: "Acompanhar pedido" };
+export const metadata: Metadata = {
+  title: "Acompanhar pedido",
+  description: "Veja em que etapa está o seu pedido da Marmifit Camburi com o número do pedido e o telefone.",
+  alternates: { canonical: "/acompanhar" },
+};
 
 async function findOrder(formData: FormData) {
   "use server";

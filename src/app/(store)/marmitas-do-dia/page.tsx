@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/store/section";
 import { ProductCard } from "@/components/store/product-card";
@@ -7,11 +8,11 @@ import { cn } from "@/lib/utils";
 import { listProducts } from "@/server/catalog";
 import { getListingContext } from "@/server/viewer";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Marmitas do dia",
-  description: "Um prato especial a cada dia da semana: strogonoff, feijoada light, moqueca caiçara e mais.",
-  alternates: { canonical: "/marmitas-do-dia" },
-};
+  description: "Um prato especial a cada dia da semana na Marmifit Camburi: strogonoff, feijoada light, moqueca caiçara e mais.",
+  path: "/marmitas-do-dia",
+});
 
 export default async function DailyPage() {
   const today = todayDailyIndex();

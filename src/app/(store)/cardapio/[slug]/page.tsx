@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, ShieldAlert, Star, BadgeCheck } from "lucide-react";
@@ -7,7 +8,6 @@ import { ProductPurchase } from "@/components/store/product-purchase";
 import { NutritionTable } from "@/components/store/nutrition-table";
 import { ProductCard } from "@/components/store/product-card";
 import { SectionHeading } from "@/components/store/section";
-import { db } from "@/lib/db";
 import { formatBRL, productPrice } from "@/lib/pricing";
 import { todayDailyIndex, WEEKDAYS } from "@/lib/hours";
 import { BADGE_LABEL, productBadges } from "@/lib/badges";
@@ -16,14 +16,13 @@ import { getListingContext } from "@/server/viewer";
 
 export async function generateMetadata({ params }: PageProps<"/cardapio/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const product = await db.product.findUnique({ where: { slug }, select: { name: true, description: true, image: true } });
+  const product = await getProductBySlug(slug);
   if (!product) return { title: "Prato não encontrado" };
-  return {
-    title: product.name,
-    description: product.description,
-    alternates: { canonical: `/cardapio/${slug}` },
-    openGraph: { title: product.name, description: product.description, images: product.image ? [product.image] : undefined },
-  };
+  const base = pageMetadata({ title: product.name, description: product.description, path: `/cardapio/${slug}` });
+  // com foto, ela vira a imagem do compartilhamento; sem foto, vale a imagem padrão do site
+  return product.image
+    ? { ...base, openGraph: { ...base.openGraph, images: [{ url: product.image, alt: product.name }] }, twitter: { ...base.twitter, images: [product.image] } }
+    : base;
 }
 
 export default async function ProductPage({ params }: PageProps<"/cardapio/[slug]">) {

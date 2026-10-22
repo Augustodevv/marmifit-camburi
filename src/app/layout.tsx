@@ -9,20 +9,28 @@ const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], displa
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
+const description =
+  "Marmitas caseiras, fitness, low carb e veganas feitas todo dia em Camburi, São Sebastião (SP). Monte a sua, agende a entrega e acompanhe o pedido.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Marmifit Camburi — Marmitas saudáveis no Litoral Norte de SP",
+    default: "Marmifit Camburi — Marmitas caseiras e fit em Camburi, SP",
     template: "%s · Marmifit Camburi",
   },
-  description:
-    "Peça marmitas tradicionais, fitness, low carb, vegetarianas e veganas em Camburi, São Sebastião - Litoral Norte de SP. Monte a sua, agende a entrega e acompanhe o pedido.",
-  keywords: ["marmita", "marmita fitness", "Camburi", "São Sebastião", "Litoral Norte", "delivery", "low carb", "marmita vegana"],
+  description,
+  applicationName: "Marmifit Camburi",
+  keywords: ["marmita", "Marmitas Camburi", "marmita fitness", "Camburi", "São Sebastião", "Litoral Norte", "delivery", "low carb", "marmita vegana", "moqueca caiçara"],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     siteName: "Marmifit Camburi",
+    title: "Marmifit Camburi — Marmitas caseiras e fit em Camburi, SP",
+    description,
+    url: "/",
   },
+  twitter: { card: "summary_large_image", title: "Marmifit Camburi — Marmitas caseiras e fit em Camburi, SP", description },
   robots: { index: true, follow: true },
 };
 
