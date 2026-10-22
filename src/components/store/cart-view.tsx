@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatBRL } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { TrustList } from "@/components/store/trust-list";
 
 /** Sincroniza preços do carrinho com o servidor e devolve erros por linha. */
 export function useCartValidation() {
@@ -68,8 +69,8 @@ export function CartView() {
   if (!mounted) {
     return (
       <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_380px]">
-        <div className="space-y-4">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-32 rounded-2xl bg-cream-200" />)}</div>
-        <Skeleton className="h-72 rounded-3xl bg-cream-200" />
+        <div className="space-y-4">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-32 rounded-card bg-cream-200" />)}</div>
+        <Skeleton className="h-72 rounded-panel bg-cream-200" />
       </div>
     );
   }
@@ -120,7 +121,7 @@ export function CartView() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: -40, height: 0, marginTop: 0 }}
-                className={cn("flex gap-4 rounded-2xl border bg-white p-4 shadow-soft", errors[l.key] ? "border-destructive/50" : "border-cream-300")}
+                className={cn("flex gap-4 rounded-card border bg-white p-4 shadow-soft", errors[l.key] ? "border-destructive/50" : "border-cream-300")}
               >
                 {l.type === "product" ? (
                   <Link href={`/cardapio/${l.slug}`} className="shrink-0">
@@ -170,7 +171,7 @@ export function CartView() {
       </section>
 
       <aside>
-        <div className="sticky top-24 rounded-3xl border border-cream-300 bg-white p-6 shadow-lift">
+        <div className="sticky top-24 rounded-panel border border-cream-300 bg-white p-6 shadow-lift">
           <h2 className="text-2xl font-semibold text-forest">Resumo</h2>
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
@@ -190,6 +191,7 @@ export function CartView() {
           >
             Finalizar pedido <ArrowRight className="size-5" aria-hidden />
           </Link>
+          <TrustList className="mt-5 border-t border-cream-300 pt-4" />
         </div>
       </aside>
     </div>

@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatBRL } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { TrustList } from "@/components/store/trust-list";
 
 interface Addr {
   id?: string;
@@ -190,8 +191,8 @@ export function CheckoutForm(props: {
   if (!mounted) {
     return (
       <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_400px]">
-        <Skeleton className="h-[600px] rounded-3xl bg-cream-200" />
-        <Skeleton className="h-80 rounded-3xl bg-cream-200" />
+        <Skeleton className="h-[600px] rounded-panel bg-cream-200" />
+        <Skeleton className="h-80 rounded-panel bg-cream-200" />
       </div>
     );
   }
@@ -333,7 +334,7 @@ export function CheckoutForm(props: {
       </div>
 
       <aside>
-        <div className="sticky top-24 space-y-4 rounded-3xl border border-cream-300 bg-white p-6 shadow-lift">
+        <div className="sticky top-24 space-y-4 rounded-panel border border-cream-300 bg-white p-6 shadow-lift">
           <h2 className="text-2xl font-semibold text-forest">Seu pedido</h2>
           <ul className="max-h-64 space-y-2 overflow-y-auto pr-1 text-sm">
             {lines.map((l) => (
@@ -400,8 +401,9 @@ export function CheckoutForm(props: {
             {submitting ? "Enviando..." : payment === "ON_DELIVERY" ? "Confirmar pedido" : "Ir para o pagamento"}
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Ao confirmar você concorda com nossa <Link href="/privacidade" className="underline">política de privacidade</Link>. Todos os valores são conferidos pelo servidor.
+            Ao confirmar você concorda com nossa <Link href="/privacidade" className="underline">política de privacidade</Link>.
           </p>
+          <TrustList className="border-t border-cream-300 pt-4" />
         </div>
       </aside>
     </form>
@@ -423,7 +425,7 @@ function Row({ label, value, accent }: { label: string; value: string | null; ac
 
 function Fieldset({ step, title, children }: { step: number; title: string; children: React.ReactNode }) {
   return (
-    <fieldset className="rounded-3xl border border-cream-300 bg-white p-5 shadow-soft sm:p-6">
+    <fieldset className="rounded-panel border border-cream-300 bg-white p-5 shadow-soft sm:p-6">
       <legend className="sr-only">{title}</legend>
       <div className="mb-4 flex items-center gap-3" aria-hidden>
         <span className="flex size-8 items-center justify-center rounded-full bg-forest text-sm font-bold text-cream">{step}</span>
@@ -456,7 +458,7 @@ function Choice({
       disabled={disabled}
       aria-pressed={selected}
       className={cn(
-        "flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-50",
+        "flex items-center gap-3 rounded-card border-2 p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-50",
         selected ? "border-leaf bg-leaf-100/60" : "border-cream-300 hover:border-leaf/50",
       )}
     >

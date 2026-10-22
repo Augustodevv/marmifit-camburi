@@ -431,7 +431,7 @@ export function Configurator({ catalog, images = {} }: { catalog: Catalog; image
       </aside>
 
       {/* Resumo inferior no celular */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-cream-300 bg-white/95 shadow-lift backdrop-blur lg:hidden">
+      <div data-mobile-bar className="fixed inset-x-0 bottom-0 z-40 border-t border-cream-300 bg-white/95 shadow-lift backdrop-blur lg:hidden">
         <AnimatePresence>
           {mobileSummary && (
             <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
