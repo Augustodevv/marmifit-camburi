@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
 import { Toaster } from "sonner";
+import { REVEAL_SCRIPT } from "@/components/store/motion";
 import "./globals.css";
 
 const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], display: "swap" });
@@ -31,7 +32,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${fraunces.variable} ${manrope.variable} h-full`}>
+    // suppressHydrationWarning: o REVEAL_SCRIPT acrescenta a classe "js" antes da hidratação
+    <html lang="pt-BR" className={`${fraunces.variable} ${manrope.variable} h-full`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">
         {children}
         <Toaster

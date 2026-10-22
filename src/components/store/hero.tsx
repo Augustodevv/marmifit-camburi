@@ -136,7 +136,7 @@ export function Hero({
           }}
         >
           <motion.div style={reduce ? undefined : { rotateX: rx, rotateY: ry }} className="relative [transform-style:preserve-3d]">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[2.25rem] border-4 border-cream/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-panel border-4 border-cream/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
               {heroImage ? (
                 <Image src={heroImage} alt="Marmitas coloridas da Marmifit Camburi" fill priority quality={90} sizes="(min-width: 1024px) 580px, 100vw" className="object-cover" />
               ) : (
@@ -165,7 +165,7 @@ export function Hero({
             >
               <p className="text-xs font-semibold text-muted-foreground">Monte a sua a partir de</p>
               <p className="font-display text-3xl font-semibold">{fromPrice}</p>
-              <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-leaf">
+              <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-leaf-700">
                 <Star className="size-3.5 fill-tangerine text-tangerine" aria-hidden /> preço na hora
               </p>
             </motion.div>

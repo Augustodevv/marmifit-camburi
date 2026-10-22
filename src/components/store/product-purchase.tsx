@@ -76,7 +76,7 @@ export function ProductPurchase({
                   <input type="radio" name="size" value={s.id} checked={selected} onChange={() => setSizeId(s.id)} className="sr-only" />
                   <span className="block text-sm font-bold text-forest">{s.name}</span>
                   <span className="block text-xs text-muted-foreground">{s.grams} g</span>
-                  <span className="mt-1 block text-sm font-semibold text-leaf">{formatBRL(productPrice(product, s))}</span>
+                  <span className="mt-1 block text-sm font-semibold text-leaf-700">{formatBRL(productPrice(product, s))}</span>
                   {selected && <motion.span layoutId="size-ring" className="absolute inset-0 rounded-xl ring-2 ring-leaf/30" />}
                 </label>
               );
@@ -101,13 +101,13 @@ export function ProductPurchase({
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex h-12 items-center rounded-xl border border-input bg-white">
-          <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex size-12 items-center justify-center text-forest hover:text-leaf" aria-label="Diminuir quantidade">
+          <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex size-12 items-center justify-center text-forest hover:text-leaf-700" aria-label="Diminuir quantidade">
             <Minus className="size-4" />
           </button>
           <span className="w-8 text-center font-semibold tabular-nums" aria-live="polite" aria-label={`Quantidade: ${qty}`}>
             {qty}
           </span>
-          <button type="button" onClick={() => setQty((q) => Math.min(50, q + 1))} className="flex size-12 items-center justify-center text-forest hover:text-leaf" aria-label="Aumentar quantidade">
+          <button type="button" onClick={() => setQty((q) => Math.min(50, q + 1))} className="flex size-12 items-center justify-center text-forest hover:text-leaf-700" aria-label="Aumentar quantidade">
             <Plus className="size-4" />
           </button>
         </div>
@@ -120,7 +120,7 @@ export function ProductPurchase({
       {blockedReason ? (
         <p className="rounded-xl bg-tangerine-100 p-3 text-sm font-medium text-forest">{blockedReason}</p>
       ) : (
-        <button type="button" onClick={() => addToCart(true)} className="text-sm font-semibold text-leaf underline-offset-4 hover:underline">
+        <button type="button" onClick={() => addToCart(true)} className="text-sm font-semibold text-leaf-700 underline-offset-4 hover:underline">
           Adicionar e ir para o carrinho
         </button>
       )}

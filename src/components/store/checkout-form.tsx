@@ -199,7 +199,7 @@ export function CheckoutForm(props: {
   if (placed) {
     return (
       <div className="container-page flex flex-col items-center py-24 text-center" role="status">
-        <Loader2 className="size-10 animate-spin text-leaf" aria-hidden />
+        <Loader2 className="size-10 animate-spin text-leaf-700" aria-hidden />
         <p className="mt-4 font-display text-2xl text-forest">Pedido enviado! Abrindo os detalhes...</p>
       </div>
     );
@@ -416,7 +416,7 @@ function Row({ label, value, accent }: { label: string; value: string | null; ac
   return (
     <div className="flex justify-between">
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className={cn("tabular-nums", accent && "font-semibold text-leaf")}>{value ?? <Skeleton className="h-4 w-14" />}</dd>
+      <dd className={cn("tabular-nums", accent && "font-semibold text-leaf-700")}>{value ?? <Skeleton className="h-4 w-14" />}</dd>
     </div>
   );
 }
@@ -460,7 +460,7 @@ function Choice({
         selected ? "border-leaf bg-leaf-100/60" : "border-cream-300 hover:border-leaf/50",
       )}
     >
-      <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", selected ? "bg-leaf text-white" : "bg-cream text-forest")}>
+      <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", selected ? "bg-leaf-700 text-white" : "bg-cream text-forest")}>
         <Icon className="size-5" aria-hidden />
       </span>
       <span>

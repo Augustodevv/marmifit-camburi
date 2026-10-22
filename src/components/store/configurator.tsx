@@ -60,7 +60,7 @@ const GROUP_KEY: Record<IngredientGroup, "proteinIds" | "baseIds" | "sideIds" | 
 const GROUP_TONE: Record<IngredientGroup, string> = {
   PROTEIN: "bg-tangerine-100 text-[#a35a12]",
   BASE: "bg-cream-200 text-[#7a5b2a]",
-  SIDE: "bg-leaf-100 text-leaf",
+  SIDE: "bg-leaf-100 text-leaf-700",
   ADDON: "bg-[#efe3f3] text-[#7a3f8f]",
 };
 
@@ -225,11 +225,11 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                     className={cn(
                       "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                       isCurrent && "border-forest bg-forest text-cream",
-                      done && "border-leaf bg-leaf-100 text-leaf",
+                      done && "border-leaf bg-leaf-100 text-leaf-700",
                       !isCurrent && !done && "border-cream-300 bg-white text-muted-foreground hover:text-forest",
                     )}
                   >
-                    <span className={cn("flex size-5 items-center justify-center rounded-full text-[10px]", isCurrent ? "bg-tangerine text-forest" : done ? "bg-leaf text-white" : "bg-cream-200")}>
+                    <span className={cn("flex size-5 items-center justify-center rounded-full text-[10px]", isCurrent ? "bg-tangerine text-forest" : done ? "bg-leaf-700 text-white" : "bg-cream-200")}>
                       {done ? <Check className="size-3" strokeWidth={3} /> : i + 1}
                     </span>
                     {s.label}
@@ -255,7 +255,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
           >
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">
                   Etapa {step + 1} de {STEPS.length}
                 </p>
                 <h2 id="step-title" className="mt-1 text-3xl font-semibold text-forest">{current.title}</h2>
@@ -311,7 +311,7 @@ export function Configurator({ catalog }: { catalog: Catalog }) {
                           <Lightbulb className="size-4 text-tangerine" aria-hidden />
                           <span className="font-semibold text-forest">Combina bem:</span>
                           {suggestions.map((s) => (
-                            <button key={s.id} type="button" onClick={() => toggle(s)} className="rounded-full bg-leaf-100 px-3 py-1 text-xs font-semibold text-leaf hover:bg-leaf hover:text-white">
+                            <button key={s.id} type="button" onClick={() => toggle(s)} className="rounded-full bg-leaf-100 px-3 py-1 text-xs font-semibold text-leaf-700 hover:bg-leaf hover:text-white">
                               + {s.name}
                             </button>
                           ))}
@@ -458,13 +458,13 @@ function OptionCard({
         selected ? "border-leaf shadow-lift" : "border-cream-300 hover:-translate-y-0.5 hover:border-leaf/50 hover:shadow-soft",
       )}
     >
-      <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-2xl transition", selected ? "bg-leaf text-white" : "bg-leaf-100 text-leaf")}>
+      <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-2xl transition", selected ? "bg-leaf-700 text-white" : "bg-leaf-100 text-leaf-700")}>
         <Icon className="size-6" aria-hidden />
       </span>
       <span className="flex-1">
         <span className="block font-display text-xl font-semibold text-forest">{title}</span>
         <span className="mt-0.5 block text-sm text-muted-foreground">{subtitle}</span>
-        {price && <span className="mt-2 block text-sm font-bold text-leaf">{price}</span>}
+        {price && <span className="mt-2 block text-sm font-bold text-leaf-700">{price}</span>}
       </span>
       <SelectedMark on={selected} />
     </motion.button>
@@ -480,7 +480,7 @@ function SelectedMark({ on }: { on: boolean }) {
           animate={{ scale: 1, rotate: 0 }}
           exit={{ scale: 0 }}
           transition={{ type: "spring", stiffness: 500, damping: 22 }}
-          className="absolute right-3 top-3 flex size-6 items-center justify-center rounded-full bg-leaf text-white"
+          className="absolute right-3 top-3 flex size-6 items-center justify-center rounded-full bg-leaf-700 text-white"
         >
           <Check className="size-3.5" strokeWidth={3} aria-hidden />
         </motion.span>
@@ -532,7 +532,7 @@ function IngredientCard({
           {disabled ? (
             <span id={`why-${ing.id}`} className="mt-1 block text-xs font-medium text-destructive">{disabledReason}</span>
           ) : (
-            <span className="mt-1 block text-sm font-bold text-leaf">{ing.price > 0 ? `+ ${formatBRL(ing.price)}` : "Incluso"}</span>
+            <span className="mt-1 block text-sm font-bold text-leaf-700">{ing.price > 0 ? `+ ${formatBRL(ing.price)}` : "Incluso"}</span>
           )}
         </span>
       </motion.button>
@@ -540,7 +540,7 @@ function IngredientCard({
       {extra && (
         <label className="flex cursor-pointer items-center justify-between gap-2 border-t border-cream-300 px-4 py-2.5 text-sm">
           <span className="font-medium text-forest">
-            Porção extra{extra.grams ? ` (+${extra.grams} g)` : ""} <span className="text-leaf">+ {formatBRL(extra.price)}</span>
+            Porção extra{extra.grams ? ` (+${extra.grams} g)` : ""} <span className="text-leaf-700">+ {formatBRL(extra.price)}</span>
           </span>
           <input type="checkbox" checked={extra.on} onChange={extra.toggle} className="size-5 accent-[#43865B]" />
         </label>
@@ -551,7 +551,7 @@ function IngredientCard({
 
 function Tag({ children, tone }: { children: React.ReactNode; tone?: "warn" }) {
   return (
-    <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide", tone === "warn" ? "bg-tangerine-100 text-[#8a4a0c]" : "bg-leaf-100 text-leaf")}>
+    <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide", tone === "warn" ? "bg-tangerine-100 text-[#8a4a0c]" : "bg-leaf-100 text-leaf-700")}>
       {children}
     </span>
   );
@@ -580,7 +580,7 @@ function Summary({
   ];
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf">Resumo</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">Resumo</p>
       <h3 className="mt-1 text-2xl font-semibold text-forest">Sua marmita</h3>
       <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
         <div className="rounded-xl bg-cream p-3">

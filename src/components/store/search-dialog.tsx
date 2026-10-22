@@ -70,7 +70,7 @@ export function SearchDialog() {
       <DialogContent className="top-[12%] translate-y-0 gap-0 overflow-hidden rounded-2xl bg-white p-0 sm:max-w-xl" showCloseButton={false}>
         <DialogTitle className="sr-only">Buscar no cardápio</DialogTitle>
         <div className="flex items-center gap-3 border-b border-cream-300 px-4">
-          <Search className="size-5 text-leaf" aria-hidden />
+          <Search className="size-5 text-leaf-700" aria-hidden />
           <input
             autoFocus
             value={q}
@@ -87,7 +87,7 @@ export function SearchDialog() {
           ) : results.length === 0 && !loading ? (
             <div className="px-3 py-6 text-center text-sm text-muted-foreground">
               Nada encontrado.{" "}
-              <Link href="/monte-sua-marmita" onClick={() => setOpen(false)} className="font-semibold text-leaf underline">
+              <Link href="/monte-sua-marmita" onClick={() => setOpen(false)} className="font-semibold text-leaf-700 underline">
                 Que tal montar a sua?
               </Link>
             </div>
@@ -108,7 +108,7 @@ export function SearchDialog() {
                       {r.fromPrice && <span className="mr-1 text-xs font-normal text-muted-foreground">a partir de</span>}
                       {formatBRL(r.price)}
                     </span>
-                    <ArrowRight className="size-4 text-leaf opacity-0 transition group-hover:opacity-100" aria-hidden />
+                    <ArrowRight className="size-4 text-leaf-700 opacity-0 transition group-hover:opacity-100" aria-hidden />
                   </Link>
                 </li>
               ))}

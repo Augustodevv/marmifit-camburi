@@ -23,7 +23,7 @@ export default function AboutPage() {
     <>
       <PageHeader eyebrow="Nossa história" title="Comida de casa, com cuidado de cozinha profissional" />
       <div className="container-page grid items-center gap-12 py-14 lg:grid-cols-2">
-        <FoodImage alt="Cozinha da Marmifit" seed="sobre-cozinha" className="aspect-[4/3] rounded-[2rem] shadow-lift" />
+        <FoodImage alt="Cozinha da Marmifit" seed="sobre-cozinha" className="aspect-[4/3] rounded-panel shadow-lift" />
         <div className="space-y-4 text-lg leading-relaxed text-ink/80">
           <p>
             A Marmifit nasceu em Camburi com uma ideia simples: comer bem no dia a dia não deveria ser complicado. Por isso
@@ -40,7 +40,7 @@ export default function AboutPage() {
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {VALUES.map((v) => (
             <li key={v.title} className="rounded-2xl border border-cream-300 bg-white p-6 shadow-soft">
-              <v.icon className="size-8 text-leaf" aria-hidden />
+              <v.icon className="size-8 text-leaf-700" aria-hidden />
               <h2 className="mt-4 text-xl font-semibold text-forest">{v.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{v.text}</p>
             </li>

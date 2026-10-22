@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
   return (
     <div className="container-page py-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <Link href="/cardapio" className="inline-flex items-center gap-1 text-sm font-semibold text-forest hover:text-leaf">
+      <Link href="/cardapio" className="inline-flex items-center gap-1 text-sm font-semibold text-forest hover:text-leaf-700">
         <ChevronLeft className="size-4" aria-hidden /> Voltar ao cardápio
       </Link>
 
@@ -78,12 +78,12 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
             seed={product.slug}
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
-            className="aspect-square w-full rounded-[2rem] shadow-lift"
+            className="aspect-square w-full rounded-panel shadow-lift"
           />
         </div>
 
         <div>
-          <Link href={`/cardapio?categoria=${product.category.slug}`} className="text-xs font-bold uppercase tracking-[0.2em] text-leaf">
+          <Link href={`/cardapio?categoria=${product.category.slug}`} className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">
             {product.category.name}
           </Link>
           <h1 className="mt-2 text-4xl font-semibold text-forest sm:text-5xl">{product.name}</h1>
@@ -151,7 +151,7 @@ export default async function ProductPage({ params }: PageProps<"/cardapio/[slug
                       <Star key={i} className={`size-4 ${i < r.rating ? "fill-tangerine text-tangerine" : "text-cream-300"}`} aria-hidden />
                     ))}
                   </div>
-                  <span className="flex items-center gap-1 text-xs font-semibold text-leaf">
+                  <span className="flex items-center gap-1 text-xs font-semibold text-leaf-700">
                     <BadgeCheck className="size-4" aria-hidden /> Compra verificada
                   </span>
                 </div>

@@ -32,6 +32,8 @@
   --color-forest-800: #1d4a3a;
   --color-forest-700: #255c47;
   --color-leaf: #43865b;
+  /* verde para texto pequeno: 5,5:1 sobre o creme (o leaf puro fica em 4:1) */
+  --color-leaf-700: #356f4a;
   --color-leaf-100: #e3efe6;
   --color-cream: #f8f5ed;
   --color-cream-200: #efe9da;
@@ -48,8 +50,21 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
+  /* cantos padronizados: card (cards de produto e blocos pequenos) e panel (seções em destaque) */
+  --radius-card: 1.25rem;
+  --radius-panel: 2rem;
+
   --shadow-soft: 0 1px 2px rgb(22 59 46 / 0.06), 0 8px 24px -8px rgb(22 59 46 / 0.12);
   --shadow-lift: 0 2px 4px rgb(22 59 46 / 0.06), 0 18px 40px -12px rgb(22 59 46 / 0.22);
+  --shadow-float: 0 4px 8px rgb(22 59 46 / 0.08), 0 30px 60px -20px rgb(22 59 46 / 0.45);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-reverse: marquee 32s linear infinite reverse;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-rise: rise 0.8s var(--ease-out-soft) both;
+  --animate-ken-burns: ken-burns 18s ease-in-out infinite alternate;
 }
 
 :root {
@@ -96,26 +111,60 @@
     background: #f59e42;
     color: #163b2e;
   }
+  /* anel duplo: o verde aparece no fundo claro, o laranja no fundo escuro e sobre fotos */
   :focus-visible {
-    outline: 2px solid #43865b;
+    outline: 3px solid #f59e42;
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px #163b2e;
   }
 }
 
-@keyframes blob {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
+@keyframes marquee {
+  from {
+    transform: translateX(0);
   }
-  50% {
-    transform: translate(60px, 30px) scale(1.15);
+  to {
+    transform: translateX(-50%);
   }
 }
 
+@keyframes ken-burns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.1) translate(-1%, -1%);
+  }
+}
+
+/*
+ * Entradas ao rolar. O conteúdo só fica escondido quando o script do layout
+ * marcou <html class="js"> — sem JS (ou com movimento reduzido) tudo aparece.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not([data-shown]),
+  .js [data-reveal-group]:not([data-shown]) > * {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .js [data-reveal],
+  .js [data-reveal-group] > * {
+    transition:
+      opacity 0.7s var(--ease-out-soft),
+      transform 0.7s var(--ease-out-soft);
+  }
+  .js [data-reveal-group] > :nth-child(2) { transition-delay: 70ms; }
+  .js [data-reveal-group] > :nth-child(3) { transition-delay: 140ms; }
+  .js [data-reveal-group] > :nth-child(4) { transition-delay: 210ms; }
+  .js [data-reveal-group] > :nth-child(5) { transition-delay: 280ms; }
+  .js [data-reveal-group] > :nth-child(6) { transition-delay: 350ms; }
+  .js [data-reveal-group] > :nth-child(n + 7) { transition-delay: 420ms; }
+}
+
+/* só movimento, sem opacidade: o texto conta para o LCP desde o primeiro quadro */
 @keyframes rise {
   from {
-    opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;

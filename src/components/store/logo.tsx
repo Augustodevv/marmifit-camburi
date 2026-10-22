@@ -20,8 +20,8 @@ export function Logo({ light, className }: { light?: boolean; className?: string
         <span className={cn("block font-display text-xl font-semibold tracking-tight", light ? "text-cream" : "text-forest")}>
           Marmifit
         </span>
-        <span className={cn("block text-[0.65rem] font-semibold uppercase tracking-[0.22em]", light ? "text-tangerine" : "text-leaf")}>
-          Camburi
+        <span className={cn("mt-0.5 block text-[0.6rem] font-bold uppercase tracking-[0.16em]", light ? "text-tangerine" : "text-leaf-700")}>
+          Marmitas Camburi
         </span>
       </span>
     </Link>

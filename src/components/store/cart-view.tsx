@@ -78,7 +78,7 @@ export function CartView() {
     return (
       <div className="container-page py-20 text-center">
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="mx-auto flex size-24 items-center justify-center rounded-full bg-cream-200">
-          <ShoppingBag className="size-10 text-leaf" aria-hidden />
+          <ShoppingBag className="size-10 text-leaf-700" aria-hidden />
         </motion.div>
         <h1 className="mt-6 text-4xl font-semibold text-forest">Seu carrinho está vazio</h1>
         <p className="mt-2 text-muted-foreground">Bora escolher algo gostoso?</p>
@@ -164,7 +164,7 @@ export function CartView() {
             ))}
           </AnimatePresence>
         </ul>
-        <Link href="/cardapio" className="mt-6 inline-block text-sm font-semibold text-leaf hover:underline">
+        <Link href="/cardapio" className="mt-6 inline-block text-sm font-semibold text-leaf-700 hover:underline">
           + Adicionar mais itens
         </Link>
       </section>

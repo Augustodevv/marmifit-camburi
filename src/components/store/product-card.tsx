@@ -53,7 +53,7 @@ export function ProductCard({
         </div>
       </Link>
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-leaf">{product.category.name}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-leaf-700">{product.category.name}</p>
         <h3 className="mt-1.5 text-lg font-semibold leading-snug text-forest">
           <Link href={`/cardapio/${product.slug}`} className="after:absolute after:inset-0 after:content-[''] focus:outline-none">
             {product.name}

@@ -55,12 +55,12 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
     <div className="container-page max-w-4xl py-10">
       <AutoRefresh seconds={20} enabled={!final} />
       {sp.novo === "1" && (
-        <div className="mb-6 rounded-2xl bg-leaf p-5 text-white shadow-lift">
+        <div className="mb-6 rounded-2xl bg-leaf-700 p-5 text-white shadow-lift">
           <p className="font-display text-2xl font-semibold">Pedido recebido! 🎉</p>
           <p className="mt-1 text-sm text-white/85">Guarde este link para acompanhar. Avisamos aqui a cada mudança de status.</p>
         </div>
       )}
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf">Pedido {order.number}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">Pedido {order.number}</p>
       <h1 className="mt-2 text-4xl font-semibold text-forest sm:text-5xl">{ORDER_STATUS_LABEL[status]}</h1>
       <p className="mt-2 text-muted-foreground">
         Feito em {formatDateTime(order.createdAt)}
@@ -92,7 +92,7 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
                 <span
                   className={cn(
                     "flex size-14 items-center justify-center rounded-2xl transition",
-                    isCurrent ? "bg-tangerine text-forest shadow-lift" : done ? "bg-leaf text-white" : "bg-cream-200 text-muted-foreground",
+                    isCurrent ? "bg-tangerine text-forest shadow-lift" : done ? "bg-leaf-700 text-white" : "bg-cream-200 text-muted-foreground",
                     isCurrent && !final && "animate-pulse",
                   )}
                 >
@@ -124,8 +124,8 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
           <dl className="mt-4 space-y-1 border-t border-dashed border-cream-300 pt-4 text-sm">
             <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatBRL(order.subtotal)}</dd></div>
             <div className="flex justify-between"><dt className="text-muted-foreground">Entrega</dt><dd>{order.deliveryFee ? formatBRL(order.deliveryFee) : "Grátis"}</dd></div>
-            {order.discount > 0 && <div className="flex justify-between text-leaf"><dt>Cupom {order.couponCode}</dt><dd>- {formatBRL(order.discount)}</dd></div>}
-            {order.pointsDiscount > 0 && <div className="flex justify-between text-leaf"><dt>Pontos</dt><dd>- {formatBRL(order.pointsDiscount)}</dd></div>}
+            {order.discount > 0 && <div className="flex justify-between text-leaf-700"><dt>Cupom {order.couponCode}</dt><dd>- {formatBRL(order.discount)}</dd></div>}
+            {order.pointsDiscount > 0 && <div className="flex justify-between text-leaf-700"><dt>Pontos</dt><dd>- {formatBRL(order.pointsDiscount)}</dd></div>}
             <div className="flex justify-between pt-2 text-base font-semibold text-forest"><dt>Total</dt><dd>{formatBRL(order.total)}</dd></div>
           </dl>
         </section>
@@ -134,11 +134,11 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/pe
           <div className="rounded-3xl border border-cream-300 bg-white p-6 shadow-soft text-sm">
             <h2 className="text-xl font-semibold text-forest">Detalhes</h2>
             <p className="mt-3 flex gap-2">
-              {isPickup ? <Store className="size-4 shrink-0 text-leaf" aria-hidden /> : <MapPin className="size-4 shrink-0 text-leaf" aria-hidden />}
+              {isPickup ? <Store className="size-4 shrink-0 text-leaf-700" aria-hidden /> : <MapPin className="size-4 shrink-0 text-leaf-700" aria-hidden />}
               {isPickup ? `Retirada: ${settings.pickupAddress}` : address ? `${address.street}, ${address.number}${address.complement ? ` - ${address.complement}` : ""} · ${address.district}` : "Entrega"}
             </p>
             <p className="mt-2 flex gap-2">
-              <Clock className="size-4 shrink-0 text-leaf" aria-hidden />
+              <Clock className="size-4 shrink-0 text-leaf-700" aria-hidden />
               {PAYMENT_METHOD_LABEL[order.paymentMethod]} · {PAYMENT_STATUS_LABEL[order.paymentStatus]}
             </p>
             {order.pointsEarned > 0 && order.userId && (

@@ -12,7 +12,7 @@ export function ContactForm() {
   if (state?.ok) {
     return (
       <div className="flex flex-col items-center rounded-3xl border border-cream-300 bg-white p-10 text-center shadow-soft">
-        <CheckCircle2 className="size-12 text-leaf" aria-hidden />
+        <CheckCircle2 className="size-12 text-leaf-700" aria-hidden />
         <p className="mt-4 font-display text-2xl text-forest">{state.message}</p>
       </div>
     );

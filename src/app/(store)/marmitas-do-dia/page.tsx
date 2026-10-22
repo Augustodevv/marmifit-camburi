@@ -36,10 +36,10 @@ export default async function DailyPage() {
               <section key={d} id={`dia-${d}`} className="scroll-mt-28" aria-labelledby={`h-${d}`}>
                 <h2 id={`h-${d}`} className="flex items-center gap-3 text-3xl font-semibold text-forest">
                   {WEEKDAYS[d]}
-                  {d === today && <span className="rounded-full bg-leaf px-3 py-1 font-sans text-xs font-bold uppercase tracking-wider text-white">Hoje</span>}
+                  {d === today && <span className="rounded-full bg-leaf-700 px-3 py-1 font-sans text-xs font-bold uppercase tracking-wider text-white">Hoje</span>}
                 </h2>
                 {list.length === 0 ? (
-                  <p className="mt-3 text-muted-foreground">Sem prato especial neste dia. Confira o <Link href="/cardapio" className="font-semibold text-leaf underline">cardápio fixo</Link>.</p>
+                  <p className="mt-3 text-muted-foreground">Sem prato especial neste dia. Confira o <Link href="/cardapio" className="font-semibold text-leaf-700 underline">cardápio fixo</Link>.</p>
                 ) : (
                   <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {list.map((p) => (

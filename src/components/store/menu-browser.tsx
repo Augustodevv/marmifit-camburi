@@ -101,7 +101,7 @@ export function MenuBrowser({
                 aria-pressed={active.includes(f.id)}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-xs font-semibold transition",
-                  active.includes(f.id) ? "border-leaf bg-leaf text-white" : "border-cream-300 bg-white text-forest hover:border-leaf",
+                  active.includes(f.id) ? "border-leaf-700 bg-leaf-700 text-white" : "border-cream-300 bg-white text-forest hover:border-leaf",
                 )}
               >
                 {f.label}
@@ -124,6 +124,7 @@ export function MenuBrowser({
         </div>
       </div>
 
+      <h2 className="sr-only">Pratos</h2>
       <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
         {visible.length} {visible.length === 1 ? "opção encontrada" : "opções encontradas"}
       </p>

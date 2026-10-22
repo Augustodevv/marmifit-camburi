@@ -54,7 +54,7 @@ export default async function HomePage() {
                 href={c.slug === "personalizadas" ? "/monte-sua-marmita" : `/cardapio?categoria=${c.slug}`}
                 className="group flex snap-start items-center gap-2.5 rounded-full border border-cream-300 bg-white py-2 pl-2 pr-4 text-sm font-semibold text-forest shadow-soft transition duration-300 hover:-translate-y-1 hover:rotate-[-2deg] hover:border-tangerine hover:shadow-lift"
               >
-                <span className="flex size-8 items-center justify-center rounded-full bg-leaf-100 text-leaf transition duration-300 group-hover:scale-110 group-hover:bg-tangerine group-hover:text-forest">
+                <span className="flex size-8 items-center justify-center rounded-full bg-leaf-100 text-leaf-700 transition duration-300 group-hover:scale-110 group-hover:bg-tangerine group-hover:text-forest">
                   <CategoryIcon slug={c.slug} className="size-4" />
                 </span>
                 {shortCategoryName(c.name)}
@@ -66,7 +66,7 @@ export default async function HomePage() {
 
       {todays && (
         <Reveal className="container-page mt-16">
-          <section aria-labelledby="prato-do-dia" className="group grid overflow-hidden rounded-[2rem] bg-forest text-cream shadow-lift md:grid-cols-2">
+          <section aria-labelledby="prato-do-dia" className="group grid overflow-hidden rounded-panel bg-forest text-cream shadow-lift md:grid-cols-2">
             <div className="overflow-hidden">
               <FoodImage src={todays.image} alt={todays.name} seed={todays.slug} className="aspect-[4/3] transition duration-700 group-hover:scale-105 md:aspect-auto md:h-full md:min-h-[380px]" />
             </div>
@@ -116,7 +116,7 @@ export default async function HomePage() {
             <StaggerItem key={s.title}>
               <div className="group relative h-full overflow-hidden rounded-3xl border border-cream-300 bg-white p-7 shadow-soft transition duration-300 hover:-translate-y-2 hover:border-tangerine hover:shadow-lift">
                 <span className="absolute -right-2 -top-4 font-display text-8xl font-semibold text-cream-200 transition duration-500 group-hover:text-tangerine/30">{i + 1}</span>
-                <span className="relative flex size-14 items-center justify-center rounded-2xl bg-leaf text-white transition duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 group-hover:bg-tangerine group-hover:text-forest">
+                <span className="relative flex size-14 items-center justify-center rounded-2xl bg-leaf-700 text-white transition duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 group-hover:bg-tangerine group-hover:text-forest">
                   <s.icon className="size-7" aria-hidden />
                 </span>
                 <h3 className="relative mt-5 text-2xl font-semibold text-forest">{s.title}</h3>
@@ -128,7 +128,7 @@ export default async function HomePage() {
       </section>
 
       <Reveal className="container-page mt-28">
-        <section className="relative grid items-center overflow-hidden rounded-[2.5rem] bg-tangerine p-8 sm:p-14 lg:grid-cols-[1.1fr_1fr]">
+        <section className="relative grid items-center overflow-hidden rounded-panel bg-tangerine p-8 sm:p-14 lg:grid-cols-[1.1fr_1fr]">
           <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 size-80 animate-[spin_30s_linear_infinite] rounded-full border-[28px] border-dashed border-white/25" />
           <div className="relative max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-forest/70">Configurador</p>
