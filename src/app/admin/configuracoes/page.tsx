@@ -28,7 +28,8 @@ export default async function SettingsAdmin() {
               <Field label="E-mail" name="email" type="email" defaultValue={s.email} />
               <Field label="Instagram" name="instagram" defaultValue={s.instagram} placeholder="@marmifit" />
               <Field label="Endereço de retirada" name="pickupAddress" defaultValue={s.pickupAddress} />
-              <Field label="Imagem do banner principal" name="heroImage" defaultValue={s.heroImage} placeholder="/images/hero/banner.webp" className="md:col-span-3" />
+              <Field label="Imagem do banner principal" name="heroImage" defaultValue={s.heroImage} placeholder="/images/hero/poster.webp" hint="Também é a capa do vídeo e aparece para quem prefere menos movimento." className="md:col-span-3" />
+              <Field label="Vídeo do banner (opcional)" name="heroVideo" defaultValue={s.heroVideo} placeholder="/videos/hero.mp4" hint="MP4 de 8 a 15 s, sem som. Vazio: usa os arquivos em /videos se existirem." className="md:col-span-3" />
             </div>
             <div className="mt-4"><Check label="Aceitando pedidos (desmarque para pausar a loja)" name="acceptingOrders" defaultChecked={s.acceptingOrders} /></div>
           </Panel>

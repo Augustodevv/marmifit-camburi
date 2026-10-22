@@ -29,14 +29,13 @@ export default async function HomePage() {
     db.size.findFirst({ where: { active: true }, orderBy: { customBasePrice: "asc" } }),
   ]);
   const todays = daily[0];
-  const sideImage = featured.find((p) => p.image && p.image !== settings.heroImage)?.image ?? null;
 
   return (
     <>
-      <Hero heroImage={settings.heroImage} sideImage={sideImage} fromPrice={minSize ? formatBRL(minSize.customBasePrice) : "—"} isOpen={settings.acceptingOrders} />
+      <Hero heroImage={settings.heroImage} heroVideo={settings.heroVideo} fromPrice={minSize ? formatBRL(minSize.customBasePrice) : "—"} isOpen={settings.acceptingOrders} />
 
       {/* faixas animadas */}
-      <div className="relative -mt-6 overflow-hidden py-6">
+      <div id="beneficios" className="relative -mt-6 overflow-hidden py-6">
         <div className="-rotate-2 bg-tangerine py-3 font-display text-2xl font-semibold text-forest shadow-lift sm:text-3xl">
           <Marquee items={MARQUEE} />
         </div>

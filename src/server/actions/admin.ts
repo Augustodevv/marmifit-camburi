@@ -368,6 +368,8 @@ export async function saveSettings(_prev: AdminState, fd: FormData): Promise<Adm
   if ([minOrder, redemptionValue].some(Number.isNaN) || (freeDeliveryMin != null && Number.isNaN(freeDeliveryMin))) return fail("Valor inválido.");
   const heroImage = imageUrl(fd, "heroImage");
   if (heroImage === undefined) return fail("Imagem do banner inválida.");
+  const heroVideo = imageUrl(fd, "heroVideo");
+  if (heroVideo === undefined) return fail("Vídeo do banner inválido (use /caminho ou https://).");
   await db.storeSettings.update({
     where: { id: "store" },
     data: {
@@ -378,6 +380,7 @@ export async function saveSettings(_prev: AdminState, fd: FormData): Promise<Adm
       instagram: optStr(fd, "instagram"),
       pickupAddress: str(fd, "pickupAddress") || "Camburi, São Sebastião - SP",
       heroImage,
+      heroVideo,
       acceptingOrders: bool(fd, "acceptingOrders"),
       minOrder,
       freeDeliveryMin,

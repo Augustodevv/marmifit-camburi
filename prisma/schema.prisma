@@ -258,6 +258,8 @@ model StoreSettings {
   email              String?
   pickupAddress      String  @default("Camburi, São Sebastião - SP")
   heroImage          String?
+  /// vídeo opcional do hero (mp4). Vazio = usa /videos/hero.* se existirem; sem eles, só a imagem
+  heroVideo          String?
   instagram          String?
   acceptingOrders    Boolean @default(true)
   minOrder           Int     @default(0)
