@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import { ProductCard, type CardSize } from "@/components/store/product-card";
 import { shortCategoryName } from "@/lib/format";
@@ -51,6 +50,11 @@ export function MenuBrowser({
     return list;
   }, [products, category, q, active, sort, defaultSize]);
 
+  // anima a entrada dos cards só quando o filtro muda (no primeiro carregamento não atrasa o LCP)
+  const gridKey = `${category}|${active.join(",")}|${sort}`;
+  const [firstKey] = useState(gridKey);
+  const animateCards = gridKey !== firstKey;
+
   const toggle = (id: string) => setActive((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
   const tabs = [{ slug: "todas", name: "Todas" }, ...categories];
 
@@ -66,14 +70,11 @@ export function MenuBrowser({
               aria-selected={category === c.slug}
               onClick={() => setCategory(c.slug)}
               className={cn(
-                "relative shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition",
-                category === c.slug ? "text-cream" : "bg-white text-forest hover:bg-cream-200",
+                "shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300",
+                category === c.slug ? "bg-forest text-cream" : "bg-white text-forest hover:bg-cream-200",
               )}
             >
-              {category === c.slug && (
-                <motion.span layoutId="cat-pill" className="absolute inset-0 rounded-full bg-forest" transition={{ type: "spring", bounce: 0.2, duration: 0.5 }} />
-              )}
-              <span className="relative">{c.slug === "todas" ? c.name : shortCategoryName(c.name)}</span>
+              {c.slug === "todas" ? c.name : shortCategoryName(c.name)}
             </button>
           ))}
         </div>
@@ -144,15 +145,14 @@ export function MenuBrowser({
           </div>
         </div>
       ) : (
-        <motion.div layout className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <AnimatePresence mode="popLayout">
-            {visible.map((p) => (
-              <motion.div key={p.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.25 }}>
-                <ProductCard product={p} defaultSize={defaultSize} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        // a key do grid muda com os filtros: os cards entram de novo com um fade curto (CSS)
+        <div key={gridKey} className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {visible.map((p, i) => (
+            <div key={p.id} className={cn(animateCards && i < 8 && "motion-safe:animate-pop-in")} style={{ animationDelay: `${Math.min(i, 7) * 30}ms` }}>
+              <ProductCard product={p} defaultSize={defaultSize} eager={i < 2} />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

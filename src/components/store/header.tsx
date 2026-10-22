@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { useState } from "react";
 import { Menu, ShoppingBag } from "lucide-react";
 import { Logo } from "@/components/store/logo";
 import { SearchDialog } from "@/components/store/search-dialog";
@@ -27,13 +26,7 @@ export function Header() {
   const bump = useCart((s) => s.bump);
   const mounted = useHydrated();
   const [open, setOpen] = useState(false);
-  const controls = useAnimationControls();
   const count = mounted ? cartCount(lines) : 0;
-
-  useEffect(() => {
-    if (bump > 0) controls.start({ scale: [1, 1.25, 0.95, 1], rotate: [0, -8, 6, 0], transition: { duration: 0.5 } });
-  }, [bump, controls]);
-
 
   return (
     <header className="sticky top-0 z-40 border-b border-cream-300/70 bg-cream/85 backdrop-blur-md">
@@ -58,7 +51,8 @@ export function Header() {
         </nav>
         <div className="ml-auto flex items-center gap-1.5">
           <SearchDialog />
-          <motion.div animate={controls}>
+          {/* key muda a cada adição: remonta e reinicia a animação (CSS, respeita movimento reduzido) */}
+          <div key={bump} className={cn(bump > 0 && "motion-safe:animate-cart-bump")}>
             <Link
               href="/carrinho"
               className="relative flex h-10 items-center gap-2 rounded-full bg-forest pl-3 pr-4 text-sm font-semibold text-cream shadow-soft transition hover:bg-forest-800"
@@ -67,7 +61,7 @@ export function Header() {
               <ShoppingBag className="size-[18px]" />
               <span aria-hidden>{count}</span>
             </Link>
-          </motion.div>
+          </div>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               className="flex size-10 items-center justify-center rounded-full text-forest hover:bg-cream-200 lg:hidden"

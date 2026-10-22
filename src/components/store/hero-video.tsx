@@ -66,7 +66,10 @@ export function HeroVideo({
   }, [sources]);
 
   return (
-    <div className={cn("absolute inset-0 overflow-hidden bg-forest", className)}>
+    <div
+      className={cn("absolute inset-0 overflow-hidden bg-forest bg-cover bg-center", className)}
+      style={posterBlur ? { backgroundImage: `url("${posterBlur}")` } : undefined}
+    >
       {poster && !posterFailed ? (
         <Image
           src={poster}
@@ -74,8 +77,6 @@ export function HeroVideo({
           fill
           preload
           fetchPriority="high"
-          placeholder={posterBlur ? "blur" : "empty"}
-          blurDataURL={posterBlur}
           quality={75}
           sizes="100vw"
           onError={() => setPosterFailed(true)}

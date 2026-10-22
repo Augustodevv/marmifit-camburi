@@ -7,7 +7,7 @@ export default function Loading() {
       <Skeleton className="mt-3 h-5 w-96 max-w-full bg-cream-200" />
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="overflow-hidden rounded-2xl border border-cream-300 bg-white">
+          <div key={i} className="overflow-hidden rounded-card border border-cream-300 bg-white">
             <Skeleton className="aspect-[4/3] w-full rounded-none bg-cream-200" />
             <div className="space-y-2 p-5">
               <Skeleton className="h-3 w-24 bg-cream-200" />

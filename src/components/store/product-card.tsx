@@ -17,9 +17,12 @@ export interface CardSize {
 export function ProductCard({
   product,
   defaultSize,
+  eager,
 }: {
   product: ProductCardData;
   defaultSize: CardSize | null;
+  /** primeiros cards visíveis da página: foto sem lazy */
+  eager?: boolean;
 }) {
   const price = productPrice(product, product.hasSizes ? defaultSize : null);
   const discount =
@@ -36,6 +39,7 @@ export function ProductCard({
           alt={product.name}
           seed={product.slug}
           blurDataURL={product.imageBlur}
+          eager={eager}
           className="aspect-[4/3] w-full"
           imgClassName="transition duration-700 group-hover:scale-105"
         />

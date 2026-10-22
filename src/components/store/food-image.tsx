@@ -32,6 +32,7 @@ export function FoodImage({
   imgClassName,
   sizes = "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
   preload,
+  eager,
 }: {
   src?: string | null;
   alt: string;
@@ -44,19 +45,25 @@ export function FoodImage({
   sizes?: string;
   /** só para a imagem principal da página (LCP) */
   preload?: boolean;
+  /** carrega sem lazy (primeiros cards visíveis), sem o preload no <head> */
+  eager?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   if (src && !failed) {
     return (
-      <div className={cn("relative overflow-hidden bg-cream-200", className)}>
+      // blur: a miniatura de 12 px ampliada pelo CSS (o navegador suaviza). O placeholder="blur"
+      // do next/image usa um filtro SVG por imagem, caro de pintar quando há muitas na página.
+      <div
+        className={cn("relative overflow-hidden bg-cream-200 bg-cover bg-center", className)}
+        style={blurDataURL ? { backgroundImage: `url("${blurDataURL}")` } : undefined}
+      >
         <Image
           src={src}
           alt={alt}
           fill
           sizes={sizes}
           preload={preload}
-          placeholder={blurDataURL ? "blur" : "empty"}
-          blurDataURL={blurDataURL ?? undefined}
+          loading={eager && !preload ? "eager" : undefined}
           onError={() => setFailed(true)}
           className={cn("object-cover", imgClassName)}
         />

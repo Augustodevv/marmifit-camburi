@@ -65,6 +65,9 @@
   --animate-spin-slow: spin 18s linear infinite;
   --animate-rise: rise 0.8s var(--ease-out-soft) both;
   --animate-ken-burns: ken-burns 18s ease-in-out infinite alternate;
+  --animate-pop-in: pop-in 0.25s var(--ease-out-soft) both;
+  --animate-pulse-ring: pulse-ring 0.6s ease-out both;
+  --animate-cart-bump: cart-bump 0.5s ease-in-out;
 }
 
 :root {
@@ -125,6 +128,33 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes pulse-ring {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes cart-bump {
+  30% {
+    transform: scale(1.25) rotate(-8deg);
+  }
+  60% {
+    transform: scale(0.95) rotate(6deg);
   }
 }
 
@@ -193,6 +223,12 @@
   @media (width >= 64rem) {
     padding-inline: 2rem;
   }
+}
+
+/* seções abaixo da dobra: o navegador pula layout e pintura até chegarem perto da tela */
+@utility below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
 }
 
 @utility grain {

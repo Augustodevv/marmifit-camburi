@@ -69,19 +69,18 @@ export function SpinningBadge({ text, className, children }: { text: string; cla
 
 /**
  * Script inline (layout raiz): marca <html class="js"> e revela os blocos ao
- * entrarem na tela. Observa nós novos para funcionar nas navegações do cliente.
- * Na rolagem, revela também o que já passou da tela (rolagem rápida pode pular o observer).
- * Sem IntersectionObserver, revela tudo de uma vez. Os blocos usam
- * suppressHydrationWarning porque o script acrescenta data-shown antes da hidratação.
+ * entrarem na tela. A margem superior enorme faz o observer tratar como visível
+ * também o que já passou da tela (rolagem rápida pode pular um bloco entre dois
+ * quadros), sem medir nada na rolagem — o que forçaria o layout das seções com
+ * content-visibility. Observa nós novos para as navegações do cliente. Sem
+ * IntersectionObserver, revela tudo. Os blocos usam suppressHydrationWarning
+ * porque o script acrescenta data-shown antes da hidratação.
  */
 export const REVEAL_SCRIPT = `(function(){var d=document.documentElement;d.classList.add("js");
 var S="[data-reveal]:not([data-shown]),[data-reveal-group]:not([data-shown])";
-function show(e){e.setAttribute("data-shown","")}
 if(!("IntersectionObserver" in window)){d.classList.remove("js");return}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target)}})},{rootMargin:"0px 0px -60px 0px"});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.setAttribute("data-shown","");io.unobserve(e.target)}})},{rootMargin:"100000px 0px -60px 0px"});
 function scan(){document.querySelectorAll(S).forEach(function(e){io.observe(e)})}
-function passed(){document.querySelectorAll(S).forEach(function(e){if(e.getBoundingClientRect().top<innerHeight){show(e);io.unobserve(e)}})}
 var q=0;function later(){if(!q){q=1;requestAnimationFrame(function(){q=0;scan()})}}
-var r=0;function onScroll(){if(!r){r=1;requestAnimationFrame(function(){r=0;passed()})}}
-function start(){scan();new MutationObserver(later).observe(document.body,{childList:true,subtree:true});addEventListener("scroll",onScroll,{passive:true})}
+function start(){scan();new MutationObserver(later).observe(document.body,{childList:true,subtree:true})}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start()})();`;

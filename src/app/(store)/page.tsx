@@ -183,7 +183,7 @@ export default async function HomePage() {
                       {c.slug === "personalizadas" ? "Monte do seu jeito" : `${c.count} ${c.count === 1 ? "prato" : "pratos"}`}
                     </p>
                   </div>
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-cream/15 backdrop-blur transition duration-300 group-hover:bg-tangerine group-hover:text-forest">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-forest/50 transition duration-300 group-hover:bg-tangerine group-hover:text-forest">
                     <ArrowRight className="size-5" aria-hidden />
                   </span>
                 </div>
@@ -234,7 +234,7 @@ export default async function HomePage() {
 
       {/* destaques */}
       {featured.length > 0 && (
-        <section className="container-page mt-20 sm:mt-28" aria-labelledby="destaques">
+        <section className="container-page below-fold mt-20 sm:mt-28" aria-labelledby="destaques">
           <Reveal>
             <SectionHeading id="destaques" eyebrow="Os favoritos da casa" title="Destaques do cardápio" href="/cardapio" hrefLabel="Ver cardápio completo" />
           </Reveal>
@@ -249,7 +249,7 @@ export default async function HomePage() {
       )}
 
       {/* como funciona */}
-      <section className="container-page mt-20 sm:mt-28" aria-labelledby="como-funciona">
+      <section className="container-page below-fold mt-20 sm:mt-28" aria-labelledby="como-funciona">
         <Reveal>
           <SectionHeading id="como-funciona" eyebrow="Simples assim" title="Do cardápio à sua mesa" />
         </Reveal>
@@ -278,7 +278,7 @@ export default async function HomePage() {
       </div>
 
       {/* chamada do configurador */}
-      <Reveal className="container-page mt-20 sm:mt-28">
+      <Reveal className="container-page below-fold mt-20 sm:mt-28">
         <section aria-labelledby="configurador" className="relative grid items-center overflow-hidden rounded-panel bg-forest p-8 text-cream sm:p-14 lg:grid-cols-[1.1fr_1fr]">
           <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,rgb(245_158_66/0.35),transparent),radial-gradient(50%_60%_at_0%_100%,rgb(67_134_91/0.5),transparent)]" />
           <div className="relative max-w-xl">
@@ -312,7 +312,7 @@ export default async function HomePage() {
 
       {/* combos */}
       {combos.length > 0 && (
-        <section className="container-page mt-20 sm:mt-28" aria-labelledby="combos">
+        <section className="container-page below-fold mt-20 sm:mt-28" aria-labelledby="combos">
           <Reveal>
             <SectionHeading
               id="combos"
@@ -335,7 +335,7 @@ export default async function HomePage() {
 
       {/* avaliações: só as reais (aprovadas, com comentário). Sem nenhuma, a seção não aparece. */}
       {reviews.length > 0 && (
-        <section className="container-page mt-20 sm:mt-28" aria-labelledby="avaliacoes">
+        <section className="container-page below-fold mt-20 sm:mt-28" aria-labelledby="avaliacoes">
           <Reveal>
             <SectionHeading id="avaliacoes" eyebrow="Quem pediu, conta" title="Avaliações de clientes" />
           </Reveal>
@@ -362,7 +362,7 @@ export default async function HomePage() {
 
       {/* nossa cozinha */}
       {gallery.length > 0 && (
-        <section className="container-page mt-20 grid items-center gap-10 sm:mt-28 lg:grid-cols-[1fr_1.2fr]" aria-labelledby="cozinha">
+        <section className="container-page below-fold mt-20 grid items-center gap-10 sm:mt-28 lg:grid-cols-[1fr_1.2fr]" aria-labelledby="cozinha">
           <Reveal>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">Nossa cozinha em Camburi</p>
             <h2 id="cozinha" className="mt-2 text-3xl font-semibold text-forest sm:text-5xl">Comida de casa, feita aqui no litoral</h2>
@@ -393,7 +393,7 @@ export default async function HomePage() {
       )}
 
       {/* área de entrega */}
-      <Reveal className="container-page mt-20 sm:mt-28">
+      <Reveal className="container-page below-fold mt-20 sm:mt-28">
         <section aria-labelledby="entrega" className="grid gap-8 rounded-panel border border-cream-300 bg-white p-7 shadow-soft sm:p-12 lg:grid-cols-[1fr_1.4fr]">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-leaf-700">Área de entrega</p>
@@ -428,7 +428,7 @@ export default async function HomePage() {
       </Reveal>
 
       {/* perguntas frequentes */}
-      <section className="container-page mt-20 grid gap-10 sm:mt-28 lg:grid-cols-[1fr_1.6fr]" aria-labelledby="faq">
+      <section className="container-page below-fold mt-20 grid gap-10 sm:mt-28 lg:grid-cols-[1fr_1.6fr]" aria-labelledby="faq">
         <Reveal>
           <SectionHeading id="faq" eyebrow="Dúvidas" title="Perguntas frequentes" description="Não achou o que procurava? Fale com a gente pelo WhatsApp ou pela página de contato." />
         </Reveal>
